@@ -775,6 +775,7 @@ EDA.PropTable.Function <- function(FactorVar) {
 | **[Book]** [Introduction to R and Statistics](https://saestatsteaching.tech/) by University of Western Australia
 | **[Book]** [Feature Engineering and Selection: A Practical Approach for Predictive Models](http://www.feat.engineering/index.html) by Max Kuhn and Kjell Johnson
 | **[Book]** [Introduction to Research Methods](https://bookdown.org/ejvanholm/Textbook/) by Eric van Holm
+| **[Book]** [A Step-by-Step Guide to Exploratory Factor Analysis with R and RStudio](https://www.taylorfrancis.com/books/mono/10.4324/9781003120001/step-step-guide-exploratory-factor-analysis-rstudio-marley-watkins) by Marley Watkins
 | **[R Package]** [AppliedPredictiveModeling](https://cran.r-project.org/web//packages/AppliedPredictiveModeling/AppliedPredictiveModeling.pdf) by Max Kuhn
 | **[R Package]** [caret](https://topepo.github.io/caret/index.html) by Max Kuhn
 | **[R Package]** [rpart](https://mran.microsoft.com/web/packages/rpart/rpart.pdf) by Terry Therneau and Beth Atkinson
@@ -800,7 +801,8 @@ EDA.PropTable.Function <- function(FactorVar) {
 | **[Article]** [Factor Analysis with the psych package](https://m-clark.github.io/posts/2020-04-10-psych-explained/) by Michael Clark
 | **[Article]** [Factor Analysis in R with Psych Package: Measuring Consumer Involvement](https://www.r-bloggers.com/2019/01/factor-analysis-in-r-with-psych-package-measuring-consumer-involvement/) by Peter Prevos
 | **[Article]** [Factor Analysis in R](http://jinjian-mu.com/tutorial/2021-04-14-Factor%20Analysis/) by Jinjian Mu
-
+| **[Article]** [How To: Use the psych package for Factor Analysis and Data Reduction](http://personality-project.org/r/psych/HowTo/factor.pdf) by William Revelle
+| **[Article]** [A Practical Introduction to Factor Analysis: Exploratory Factor Analysis](https://stats.oarc.ucla.edu/spss/seminars/introduction-to-factor-analysis/a-practical-introduction-to-factor-analysis/) by UCLA Advanced Research Computing Team
 | **[Course]** [Applied Data Mining and Statistical Learning](https://online.stat.psu.edu/stat508/) by Penn State Eberly College of Science
 |
 |

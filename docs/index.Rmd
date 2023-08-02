@@ -1,0 +1,598 @@
+---
+title: 'Unsupervised Learning : Exploring and Visualizing Extracted Dimensions from Principal Component Algorithms'
+author: "John Pauline Pineda"
+date: "August 10, 2023"
+output: 
+  html_document:
+    toc: true
+    toc_depth: 3
+    theme: readable
+    highlight: tango
+    css: doc.css
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, fig.width=15, fig.height=10)
+```
+
+# **1. Table of Contents**
+|
+|
+##  1.1 Sample Data
+|
+| The [<mark style="background-color: #EEEEEE;color: #FF0000">**Oscars**</mark>](https://www.kaggle.com/datasets/unanimad/the-oscar-award), [<mark style="background-color: #EEEEEE;color: #FF0000">**Tomatometer**</mark>](https://www.kaggle.com/datasets/andrezaza/clapper-massive-rotten-tomatoes-movies-and-reviews) and [<mark style="background-color: #EEEEEE;color: #FF0000">**IMDB**</mark>](https://www.kaggle.com/datasets/sankha1998/tmdb-top-10000-popular-movies-dataset) datasets obtained from the  <mark style="background-color: #CCECFF">**Kaggle**</mark> website were used for this illustrated example.   
+|
+| Preliminary dataset assessment:
+|
+| **[A]** 126 rows (observations)
+| 
+| **[B]** 19 columns (variables)
+|      **[B.1]** 1/19 instance = <span style="color: #FF0000">Film</span> variable (character)
+|      **[B.2]** 1/19 labels = <span style="color: #FF0000">Year</span> variable (factor)
+|      **[B.3]** 1/19 labels = <span style="color: #FF0000">Picture</span> variable (factor)
+|             **[B.3.1]** Category 1 = <span style="color: #FF0000">Picture=WON</span> 
+|             **[B.3.2]** Category 2 = <span style="color: #FF0000">Picture=NOM</span> 
+|      **[B.4]** 16/19 descriptors = 8/16 numeric + 8/16 factor 
+|             **[B.4.1]** <span style="color: #FF0000">Tomatometer_Critic</span> (numeric)
+|             **[B.4.2]** <span style="color: #FF0000">Tomatometer_Audience</span> (numeric)
+|             **[B.4.3]** <span style="color: #FF0000">Tomatometer_Critic_Audience_Gap</span> (numeric)
+|             **[B.4.4]** <span style="color: #FF0000">IMDB_Critic</span> (numeric)
+|             **[B.4.5]** <span style="color: #FF0000">IMDB_Audience</span> (numeric)
+|             **[B.4.6]** <span style="color: #FF0000">IMDB_Critic_Audience_Gap</span> (numeric)
+|             **[B.4.7]** <span style="color: #FF0000">Nominations_Total</span> (numeric)
+|             **[B.4.8]** <span style="color: #FF0000">Nomination_SuccessRate</span> (numeric)
+|             **[B.4.9]** <span style="color: #FF0000">Genre</span> (factor)
+|             **[B.4.10]** <span style="color: #FF0000">Cinematography</span> (factor)
+|             **[B.4.11]** <span style="color: #FF0000">Directing</span> (factor)
+|             **[B.4.12]** <span style="color: #FF0000">Editing</span> (factor)
+|             **[B.4.13]** <span style="color: #FF0000">Screenplay</span> (factor)
+|             **[B.4.14]** <span style="color: #FF0000">Acting</span> (factor)
+|             **[B.4.15]** <span style="color: #FF0000">Design</span> (factor)
+|             **[B.4.16]** <span style="color: #FF0000">Sound</span> (factor)
+|     
+| 
+
+<details><summary><mark style="background-color: #000000;color: #FFFFFF">**Code Chunk | Output**</mark></summary>
+
+```{r section_1.1, warning=FALSE, message=FALSE}
+##################################
+# Loading R libraries
+##################################
+library(AppliedPredictiveModeling)
+library(caret)
+library(psych)
+library(lattice)
+library(dplyr)
+library(moments)
+library(skimr)
+library(RANN)
+library(pls)
+library(corrplot)
+library(lares)
+library(DMwR)
+library(gridExtra)
+library(rattle)
+library(RColorBrewer)
+library(stats)
+library(factoextra)
+library(FactoMineR)
+library(gplots)
+
+##################################
+# Loading source and
+# formulating the analysis set
+##################################
+Oscars <- read.csv("Oscars.csv",
+                   na.strings=c("NA","NaN"," ",""),
+                   stringsAsFactors = FALSE)
+Oscars <- as.data.frame(Oscars)
+
+##################################
+# Performing a general exploration of the data set
+##################################
+dim(Oscars)
+str(Oscars)
+summary(Oscars)
+
+##################################
+# Transforming to appropriate data types
+##################################
+Oscars$Year <- factor(Oscars$Year,
+                      levels = c("2010",
+                                 "2011",
+                                 "2012",
+                                 "2013",
+                                 "2014",
+                                 "2015",
+                                 "2016",
+                                 "2017",
+                                 "2018",
+                                 "2019",
+                                 "2020",
+                                 "2021",
+                                 "2022",
+                                 "2023"))
+
+Oscars$Genre          <- as.factor(Oscars$Genre)
+Oscars$SideGenre      <- as.factor(Oscars$SideGenre)
+Oscars$Picture        <- as.factor(Oscars$Picture)
+Oscars$Cinematography <- as.factor(Oscars$Cinematography)
+Oscars$Directing      <- as.factor(Oscars$Directing)
+Oscars$Editing        <- as.factor(Oscars$Editing)
+Oscars$Screenplay     <- as.factor(Oscars$Screenplay)
+Oscars$Acting         <- as.factor(Oscars$Acting)
+Oscars$Design         <- as.factor(Oscars$Design)
+Oscars$Sound          <- as.factor(Oscars$Sound)
+
+##################################
+# Formulating a data type assessment summary
+##################################
+PDA <- Oscars
+(PDA.Summary <- data.frame(
+  Column.Index=c(1:length(names(PDA))),
+  Column.Name= names(PDA), 
+  Column.Type=sapply(PDA, function(x) class(x)), 
+  row.names=NULL)
+)
+
+```
+
+</details>
+
+##  1.2 Data Quality Assessment
+|
+| Data quality assessment:
+|
+| **[A]** No missing observations noted for any variable.
+|
+| **[B]** Low variance observed for 1 variable with First.Second.Mode.Ratio>5.
+|      **[B.1]** <span style="color: #FF0000">Picture</span> variable (factor)
+|
+| **[C]** No low variance observed for any variable with Unique.Count.Ratio<0.01.
+|
+| **[D]** No high skewness observed for any variable with Skewness>3 or Skewness<(-3).
+|
+| **[E]** Considering the unsupervised learning nature of the analysis, no data pre-processing was proceeded to address the data quality issue identified.
+|
+|
+
+<details><summary><mark style="background-color: #000000;color: #FFFFFF">**Code Chunk | Output**</mark></summary>
+
+```{r section_1.2, warning=FALSE, message=FALSE}
+##################################
+# Loading dataset
+##################################
+DQA <- Oscars[,c(3:11,13:19)]
+
+##################################
+# Formulating an overall data quality assessment summary
+##################################
+(DQA.Summary <- data.frame(
+  Column.Index=c(1:length(names(DQA))),
+  Column.Name= names(DQA),
+  Column.Type=sapply(DQA, function(x) class(x)),
+  Row.Count=sapply(DQA, function(x) nrow(DQA)),
+  NA.Count=sapply(DQA,function(x)sum(is.na(x))),
+  Fill.Rate=sapply(DQA,function(x)format(round((sum(!is.na(x))/nrow(DQA)),3),nsmall=3)),
+  row.names=NULL)
+)
+
+##################################
+# Listing all descriptors
+##################################
+DQA.Descriptors <- DQA
+
+##################################
+# Listing all numeric Descriptors
+##################################
+DQA.Descriptors.Numeric <- DQA.Descriptors[,sapply(DQA.Descriptors, is.numeric)]
+
+if (length(names(DQA.Descriptors.Numeric))>0) {
+    print(paste0("There are ",
+               (length(names(DQA.Descriptors.Numeric))),
+               " numeric descriptor variable(s)."))
+} else {
+  print("There are no numeric descriptor variables.")
+}
+
+##################################
+# Listing all factor Descriptors
+##################################
+DQA.Descriptors.Factor <- DQA.Descriptors[,sapply(DQA.Descriptors, is.factor)]
+
+if (length(names(DQA.Descriptors.Factor))>0) {
+    print(paste0("There are ",
+               (length(names(DQA.Descriptors.Factor))),
+               " factor descriptor variable(s)."))
+} else {
+  print("There are no factor descriptor variables.")
+}
+
+##################################
+# Formulating a data quality assessment summary for factor Descriptors
+##################################
+if (length(names(DQA.Descriptors.Factor))>0) {
+
+  ##################################
+  # Formulating a function to determine the first mode
+  ##################################
+  FirstModes <- function(x) {
+    ux <- unique(na.omit(x))
+    tab <- tabulate(match(x, ux))
+    ux[tab == max(tab)]
+  }
+
+  ##################################
+  # Formulating a function to determine the second mode
+  ##################################
+  SecondModes <- function(x) {
+    ux <- unique(na.omit(x))
+    tab <- tabulate(match(x, ux))
+    fm = ux[tab == max(tab)]
+    sm = x[!(x %in% fm)]
+    usm <- unique(sm)
+    tabsm <- tabulate(match(sm, usm))
+    ifelse(is.na(usm[tabsm == max(tabsm)])==TRUE,
+           return("x"),
+           return(usm[tabsm == max(tabsm)]))
+  }
+
+  (DQA.Descriptors.Factor.Summary <- data.frame(
+  Column.Name= names(DQA.Descriptors.Factor),
+  Column.Type=sapply(DQA.Descriptors.Factor, function(x) class(x)),
+  Unique.Count=sapply(DQA.Descriptors.Factor, function(x) length(unique(x))),
+  First.Mode.Value=sapply(DQA.Descriptors.Factor, function(x) as.character(FirstModes(x)[1])),
+  Second.Mode.Value=sapply(DQA.Descriptors.Factor, function(x) as.character(SecondModes(x)[1])),
+  First.Mode.Count=sapply(DQA.Descriptors.Factor, function(x) sum(na.omit(x) == FirstModes(x)[1])),
+  Second.Mode.Count=sapply(DQA.Descriptors.Factor, function(x) sum(na.omit(x) == SecondModes(x)[1])),
+  Unique.Count.Ratio=sapply(DQA.Descriptors.Factor, function(x) format(round((length(unique(x))/nrow(DQA.Descriptors.Factor)),3), nsmall=3)),
+  First.Second.Mode.Ratio=sapply(DQA.Descriptors.Factor, function(x) format(round((sum(na.omit(x) == FirstModes(x)[1])/sum(na.omit(x) == SecondModes(x)[1])),3), nsmall=3)),
+  row.names=NULL)
+  )
+
+}
+
+##################################
+# Formulating a data quality assessment summary for numeric Descriptors
+##################################
+if (length(names(DQA.Descriptors.Numeric))>0) {
+
+  ##################################
+  # Formulating a function to determine the first mode
+  ##################################
+  FirstModes <- function(x) {
+    ux <- unique(na.omit(x))
+    tab <- tabulate(match(x, ux))
+    ux[tab == max(tab)]
+  }
+
+  ##################################
+  # Formulating a function to determine the second mode
+  ##################################
+  SecondModes <- function(x) {
+    ux <- unique(na.omit(x))
+    tab <- tabulate(match(x, ux))
+    fm = ux[tab == max(tab)]
+    sm = na.omit(x)[!(na.omit(x) %in% fm)]
+    usm <- unique(sm)
+    tabsm <- tabulate(match(sm, usm))
+    ifelse(is.na(usm[tabsm == max(tabsm)])==TRUE,
+           return(0.00001),
+           return(usm[tabsm == max(tabsm)]))
+  }
+
+  (DQA.Descriptors.Numeric.Summary <- data.frame(
+  Column.Name= names(DQA.Descriptors.Numeric),
+  Column.Type=sapply(DQA.Descriptors.Numeric, function(x) class(x)),
+  Unique.Count=sapply(DQA.Descriptors.Numeric, function(x) length(unique(x))),
+  Unique.Count.Ratio=sapply(DQA.Descriptors.Numeric, function(x) format(round((length(unique(x))/nrow(DQA.Descriptors.Numeric)),3), nsmall=3)),
+  First.Mode.Value=sapply(DQA.Descriptors.Numeric, function(x) format(round((FirstModes(x)[1]),3),nsmall=3)),
+  Second.Mode.Value=sapply(DQA.Descriptors.Numeric, function(x) format(round((SecondModes(x)[1]),3),nsmall=3)),
+  First.Mode.Count=sapply(DQA.Descriptors.Numeric, function(x) sum(na.omit(x) == FirstModes(x)[1])),
+  Second.Mode.Count=sapply(DQA.Descriptors.Numeric, function(x) sum(na.omit(x) == SecondModes(x)[1])),
+  First.Second.Mode.Ratio=sapply(DQA.Descriptors.Numeric, function(x) format(round((sum(na.omit(x) == FirstModes(x)[1])/sum(na.omit(x) == SecondModes(x)[1])),3), nsmall=3)),
+  Minimum=sapply(DQA.Descriptors.Numeric, function(x) format(round(min(x,na.rm = TRUE),3), nsmall=3)),
+  Mean=sapply(DQA.Descriptors.Numeric, function(x) format(round(mean(x,na.rm = TRUE),3), nsmall=3)),
+  Median=sapply(DQA.Descriptors.Numeric, function(x) format(round(median(x,na.rm = TRUE),3), nsmall=3)),
+  Maximum=sapply(DQA.Descriptors.Numeric, function(x) format(round(max(x,na.rm = TRUE),3), nsmall=3)),
+  Skewness=sapply(DQA.Descriptors.Numeric, function(x) format(round(skewness(x,na.rm = TRUE),3), nsmall=3)),
+  Kurtosis=sapply(DQA.Descriptors.Numeric, function(x) format(round(kurtosis(x,na.rm = TRUE),3), nsmall=3)),
+  Percentile25th=sapply(DQA.Descriptors.Numeric, function(x) format(round(quantile(x,probs=0.25,na.rm = TRUE),3), nsmall=3)),
+  Percentile75th=sapply(DQA.Descriptors.Numeric, function(x) format(round(quantile(x,probs=0.75,na.rm = TRUE),3), nsmall=3)),
+  row.names=NULL)
+  )
+
+}
+
+##################################
+# Identifying potential data quality issues
+##################################
+
+##################################
+# Checking for missing observations
+##################################
+if ((nrow(DQA.Summary[DQA.Summary$NA.Count>0,]))>0){
+  print(paste0("Missing observations noted for ",
+               (nrow(DQA.Summary[DQA.Summary$NA.Count>0,])),
+               " variable(s) with NA.Count>0 and Fill.Rate<1.0."))
+  DQA.Summary[DQA.Summary$NA.Count>0,]
+} else {
+  print("No missing observations noted.")
+}
+
+##################################
+# Checking for zero or near-zero variance Descriptors
+##################################
+if (length(names(DQA.Descriptors.Factor))==0) {
+  print("No factor descriptors noted.")
+} else if (nrow(DQA.Descriptors.Factor.Summary[as.numeric(as.character(DQA.Descriptors.Factor.Summary$First.Second.Mode.Ratio))>5,])>0){
+  print(paste0("Low variance observed for ",
+               (nrow(DQA.Descriptors.Factor.Summary[as.numeric(as.character(DQA.Descriptors.Factor.Summary$First.Second.Mode.Ratio))>5,])),
+               " factor variable(s) with First.Second.Mode.Ratio>5."))
+  DQA.Descriptors.Factor.Summary[as.numeric(as.character(DQA.Descriptors.Factor.Summary$First.Second.Mode.Ratio))>5,]
+} else {
+  print("No low variance factor descriptors due to high first-second mode ratio noted.")
+}
+
+if (length(names(DQA.Descriptors.Numeric))==0) {
+  print("No numeric descriptors noted.")
+} else if (nrow(DQA.Descriptors.Numeric.Summary[as.numeric(as.character(DQA.Descriptors.Numeric.Summary$First.Second.Mode.Ratio))>5,])>0){
+  print(paste0("Low variance observed for ",
+               (nrow(DQA.Descriptors.Numeric.Summary[as.numeric(as.character(DQA.Descriptors.Numeric.Summary$First.Second.Mode.Ratio))>5,])),
+               " numeric variable(s) with First.Second.Mode.Ratio>5."))
+  DQA.Descriptors.Numeric.Summary[as.numeric(as.character(DQA.Descriptors.Numeric.Summary$First.Second.Mode.Ratio))>5,]
+} else {
+  print("No low variance numeric descriptors due to high first-second mode ratio noted.")
+}
+
+if (length(names(DQA.Descriptors.Numeric))==0) {
+  print("No numeric descriptors noted.")
+} else if (nrow(DQA.Descriptors.Numeric.Summary[as.numeric(as.character(DQA.Descriptors.Numeric.Summary$Unique.Count.Ratio))<0.01,])>0){
+  print(paste0("Low variance observed for ",
+               (nrow(DQA.Descriptors.Numeric.Summary[as.numeric(as.character(DQA.Descriptors.Numeric.Summary$Unique.Count.Ratio))<0.01,])),
+               " numeric variable(s) with Unique.Count.Ratio<0.01."))
+  DQA.Descriptors.Numeric.Summary[as.numeric(as.character(DQA.Descriptors.Numeric.Summary$Unique.Count.Ratio))<0.01,]
+} else {
+  print("No low variance numeric descriptors due to low unique count ratio noted.")
+}
+
+##################################
+# Checking for skewed Descriptors
+##################################
+if (length(names(DQA.Descriptors.Numeric))==0) {
+  print("No numeric descriptors noted.")
+} else if (nrow(DQA.Descriptors.Numeric.Summary[as.numeric(as.character(DQA.Descriptors.Numeric.Summary$Skewness))>3 |
+                                               as.numeric(as.character(DQA.Descriptors.Numeric.Summary$Skewness))<(-3),])>0){
+  print(paste0("High skewness observed for ",
+  (nrow(DQA.Descriptors.Numeric.Summary[as.numeric(as.character(DQA.Descriptors.Numeric.Summary$Skewness))>3 |
+                                               as.numeric(as.character(DQA.Descriptors.Numeric.Summary$Skewness))<(-3),])),
+  " numeric variable(s) with Skewness>3 or Skewness<(-3)."))
+  DQA.Descriptors.Numeric.Summary[as.numeric(as.character(DQA.Descriptors.Numeric.Summary$Skewness))>3 |
+                                 as.numeric(as.character(DQA.Descriptors.Numeric.Summary$Skewness))<(-3),]
+} else {
+  print("No skewed numeric descriptors noted.")
+}
+```
+
+</details>
+
+##  1.3 Data Preprocessing
+
+###  1.3.1 Dataset Formulation
+|
+| Data Preparation:
+|
+| **[A]** Matrix data was formulated with the following variables:
+|      **[A.1]** Row Labels : <span style="color: #FF0000">Film</span>
+|      **[A.2]** Quantitative PCA Descriptor: <span style="color: #FF0000">Tomatometer_Critic</span>
+|      **[A.3]** Quantitative PCA Descriptor: <span style="color: #FF0000">Tomatometer_Audience</span>
+|      **[A.4]** Quantitative PCA Descriptor: <span style="color: #FF0000">IMDB_Critic</span>
+|      **[A.5]** Quantitative PCA Descriptor: <span style="color: #FF0000">IMDB_Audience</span>
+|      **[A.6]** Quantitative PCA Descriptor: <span style="color: #FF0000">Nominations_Total</span>
+|      **[A.7]** Quantitative PCA Descriptor: <span style="color: #FF0000">Nomination_SuccessRate</span>
+|      **[A.8]** Post-PCA Factor: <span style="color: #FF0000">Year</span>
+|      **[A.9]** Post-PCA Factor: <span style="color: #FF0000">Picture</span>
+|
+|
+|
+
+<details><summary><mark style="background-color: #000000;color: #FFFFFF">**Code Chunk | Output**</mark></summary>
+
+```{r section_1.3.1, warning=FALSE, message=FALSE}
+##################################
+# Formulating dataset for
+# Principal Component Analysis
+##################################
+Oscars.FA <- Oscars[,c("Tomatometer_Critic",
+                        "Tomatometer_Audience",
+                        "IMDB_Critic",
+                        "IMDB_Audience",
+                        "Nominations_Total",
+                        "Nomination_SuccessRate")]
+row.names(Oscars.FA) <- Oscars$Film
+dim(Oscars.FA)
+str(Oscars.FA)
+summary(Oscars.FA)
+
+```
+
+</details>
+
+## 1.4 Data Exploration
+|
+| Exploratory data analysis:
+|
+| **[A]** Critic and audience scores including their gaps from both sources were correlated.
+|      **[A.1]** High <span style="color: #FF0000">Tomatometer_Critic</span> = High <span style="color: #FF0000">IMDB_Critic</span>
+|      **[A.2]** High <span style="color: #FF0000">Tomatometer_Audience</span> = High <span style="color: #FF0000">IMDB_Audience</span>
+|      **[A.3]** Low <span style="color: #FF0000">Tomatometer_Critic_Audience_Gap</span> = Low <span style="color: #FF0000">IMDB_Critic_Audience_Gap</span>
+|
+| **[B]** Movies which won the best picture award generally had the following characteristics:
+|      **[B.1]** High <span style="color: #FF0000">Tomatometer_Critic</span> and <span style="color: #FF0000">IMDB_Critic</span> scores
+|      **[B.2]** High <span style="color: #FF0000">Tomatometer_Audience</span> and <span style="color: #FF0000">IMDB_Audience</span> scores
+|      **[B.3]** Low <span style="color: #FF0000">Tomatometer_Critic_Audience_Gap</span> and <span style="color: #FF0000">IMDB_Critic_Audience_Gap</span> scores
+|      **[B.4]** High <span style="color: #FF0000">Nominations_Total</span> and <span style="color: #FF0000">Nomination_SuccessRate</span> scores
+|      **[B.5]** Winners for the <span style="color: #FF0000">Directing</span> and <span style="color: #FF0000">Screenplay</span> categories
+|
+|
+
+<details><summary><mark style="background-color: #000000;color: #FFFFFF">**Code Chunk | Output**</mark></summary>
+
+```{r section_1.4, warning=FALSE, message=FALSE}
+##################################
+# Loading dataset
+##################################
+EDA_Oscars <- Oscars
+str(EDA_Oscars)
+
+##################################
+# Exploratory analysis
+# among quantitative descriptors
+# grouped by Picture
+##################################
+splom(~EDA_Oscars[,c(3:10)],
+      groups = EDA_Oscars$Picture,
+      pch = 16,
+      cex = 1,
+      alpha = 0.45,
+      varnames = c("T_CTC", "T_AUD", "T_GAP",
+                  "I_CTC", "I_AUD", "I_GAP",
+                  "NOM", "WIN%"),
+      auto.key = list(points = TRUE, space = "right"),
+      main = "Exploratory Analysis Between Picture and Quantitative Descriptors",
+      xlab = "Scatterplot Matrix of Quantitative Descriptors")
+
+##################################
+# Exploratory analysis
+# among quantitative descriptors
+# grouped by Year
+##################################
+splom(~EDA_Oscars[,c(3:10)],
+      groups = EDA_Oscars$Year,
+      pch = 16,
+      cex = 1,
+      alpha = 0.45,
+      varnames = c("T_CTC", "T_AUD", "T_GAP",
+                  "I_CTC", "I_AUD", "I_GAP",
+                  "NOM", "WIN%"),
+      auto.key = list(points = TRUE, space = "right"),
+      main = "Exploratory Analysis Between Year and Quantitative Descriptors",
+      xlab = "Scatterplot Matrix of Quantitative Descriptors")
+
+##################################
+# Exploratory analysis
+# among qualitative descriptors
+# grouped by Picture
+##################################
+
+##################################
+# Creating a function to formulate
+# the proportions table
+##################################
+EDA.PropTable.Function <- function(FactorVar) {
+  EDA.Bar.Source.FactorVar <- EDA_Oscars[,c("Picture",
+                                          FactorVar)]
+  EDA.Bar.Source.FactorVar.Prop <- as.data.frame(prop.table(table(EDA.Bar.Source.FactorVar), 2))
+  names(EDA.Bar.Source.FactorVar.Prop)[2] <- "Status"
+  EDA.Bar.Source.FactorVar.Prop$Variable <- rep(FactorVar,nrow(EDA.Bar.Source.FactorVar.Prop))
+  
+  return(EDA.Bar.Source.FactorVar.Prop)
+}
+
+(EDA.Bar.Source.FactorVar.Prop <- rbind(EDA.PropTable.Function(names(EDA_Oscars)[14]),
+                                       EDA.PropTable.Function(names(EDA_Oscars)[15]),
+                                       EDA.PropTable.Function(names(EDA_Oscars)[16]),
+                                       EDA.PropTable.Function(names(EDA_Oscars)[17]),
+                                       EDA.PropTable.Function(names(EDA_Oscars)[18]),
+                                       EDA.PropTable.Function(names(EDA_Oscars)[19]),
+                                       EDA.PropTable.Function(names(EDA_Oscars)[20])))
+
+(EDA.Barchart.FactorVar <- barchart(EDA.Bar.Source.FactorVar.Prop[,3] ~
+                                      EDA.Bar.Source.FactorVar.Prop[,2] |
+                                      EDA.Bar.Source.FactorVar.Prop[,4],
+                                      data=EDA.Bar.Source.FactorVar.Prop,
+                                      groups = EDA.Bar.Source.FactorVar.Prop[,1],
+                                      stack=TRUE,
+                                      ylab = "Proportion",
+                                      layout=(c(3,3)),
+      auto.key = list(points = TRUE, space = "right"),
+      main = "Exploratory Analysis Between Picture and Qualitative Descriptors",
+      xlab = "Bar Chart of Qualitative Descriptors"))
+
+```
+
+</details>
+
+## 1.5 Factor Analysis
+
+###  1.5.1 Principal Component Analysis (PCA)
+|
+|
+|
+|
+
+<details><summary><mark style="background-color: #000000;color: #FFFFFF">**Code Chunk | Output**</mark></summary>
+
+```{r section_1.5.1, warning=FALSE, message=FALSE}
+
+```
+
+</details>
+
+
+##  1.6 Algorithm Comparison Summary
+|
+|
+
+<details><summary><mark style="background-color: #000000;color: #FFFFFF">**Code Chunk | Output**</mark></summary>
+
+```{r section_1.6, warning=FALSE, message=FALSE, dev='png'}
+
+
+```
+
+</details>
+|
+# **2. References**
+|
+| **[Book]** [Multiple Factor Analysis by Example Using R](https://www.oreilly.com/library/view/multiple-factor-analysis/9781498786690/) by Jerome Pages
+| **[Book]** [Nonlinear Principal Component Analysis and Its Applications](https://link.springer.com/book/10.1007/978-981-10-0159-8#toc) by Yuichi Mori, Masahiro Kuroda and Naomichi Makino
+| **[Book]** [Applied Predictive Modeling](http://appliedpredictivemodeling.com/) by Max Kuhn and Kjell Johnson
+| **[Book]** [An Introduction to Statistical Learning](https://www.statlearning.com/) by Gareth James, Daniela Witten, Trevor Hastie and Rob Tibshirani
+| **[Book]** [Multivariate Data Visualization with R](http://lmdvr.r-forge.r-project.org/figures/figures.html) by Deepayan Sarkar
+| **[Book]** [Machine Learning](https://bookdown.org/ssjackson300/Machine-Learning-Lecture-Notes/) by Samuel Jackson
+| **[Book]** [Data Modeling Methods](https://bookdown.org/larget_jacob/data-modeling-methods/) by Jacob Larget
+| **[Book]** [Introduction to R and Statistics](https://saestatsteaching.tech/) by University of Western Australia
+| **[Book]** [Feature Engineering and Selection: A Practical Approach for Predictive Models](http://www.feat.engineering/index.html) by Max Kuhn and Kjell Johnson
+| **[Book]** [Introduction to Research Methods](https://bookdown.org/ejvanholm/Textbook/) by Eric van Holm
+| **[R Package]** [AppliedPredictiveModeling](https://cran.r-project.org/web//packages/AppliedPredictiveModeling/AppliedPredictiveModeling.pdf) by Max Kuhn
+| **[R Package]** [caret](https://topepo.github.io/caret/index.html) by Max Kuhn
+| **[R Package]** [rpart](https://mran.microsoft.com/web/packages/rpart/rpart.pdf) by Terry Therneau and Beth Atkinson
+| **[R Package]** [lattice](https://cran.r-project.org/web/packages/lattice/lattice.pdf) by  Deepayan Sarkar
+| **[R Package]** [dplyr](https://cran.r-project.org/web/packages/dplyr/index.html/) by Hadley Wickham
+| **[R Package]** [moments](https://cran.r-project.org/web/packages/moments/index.html) by Lukasz Komsta and Frederick
+| **[R Package]** [skimr](https://cran.r-project.org/web/packages/skimr/skimr.pdf) by  Elin Waring
+| **[R Package]** [RANN](https://cran.r-project.org/web/packages/RANN/RANN.pdf) by  Sunil Arya, David Mount, Samuel Kemp and Gregory Jefferis
+| **[R Package]** [corrplot](https://cran.r-project.org/web/packages/corrplot/corrplot.pdf) by Taiyun Wei
+| **[R Package]** [tidyverse](https://cran.r-project.org/web/packages/tidyverse/tidyverse.pdf) by Hadley Wickham
+| **[R Package]** [lares](https://cran.rstudio.com/web/packages/lares/lares.pdf) by Bernardo Lares
+| **[R Package]** [DMwR](https://mran.microsoft.com/snapshot/2016-05-02/web/packages/DMwR/DMwR.pdf) by Luis Torgo
+| **[R Package]** [gridExtra](https://cran.r-project.org/web/packages/gridExtra/gridExtra.pdf) by Baptiste Auguie and Anton Antonov
+| **[R Package]** [rattle](https://cran.r-project.org/web/packages/rattle/rattle.pdf) by Graham Williams
+| **[R Package]** [RColorBrewer](https://cran.r-project.org/web//packages/RColorBrewer/RColorBrewer.pdf) by Erich Neuwirth
+| **[R Package]** [stats](https://search.r-project.org/R/refmans/stats/html/00Index.html) by R Core Team
+| **[R Package]** [factoextra](https://cran.r-project.org/web/packages/factoextra/factoextra.pdf) by Alboukadel Kassambara and Fabian Mundt
+| **[R Package]** [FactoMineR](https://search.r-project.org/R/refmans/stats/html/00Index.html) by Francois Husson, Julie Josse, Sebastien Le and Jeremy Mazet
+| **[Article]** [6 Dimensionality Reduction Techniques in R (with Examples)](https://cmdlinetips.com/2022/07/dimensionality-reduction-techniques-in-r/) by CMDLineTips Team
+| **[Article]** [6 Dimensionality Reduction Algorithms With Python](https://machinelearningmastery.com/dimensionality-reduction-algorithms-with-python/) by Jason Brownlee
+| **[Article]** [Introduction to Dimensionality Reduction for Machine Learning](https://machinelearningmastery.com/dimensionality-reduction-for-machine-learning/) by Jason Brownlee
+| **[Article]** [Introduction to Dimensionality Reduction](https://www.geeksforgeeks.org/dimensionality-reduction/) by Geeks For Geeks
+| **[Article]** [Factor Analysis with the psych package](https://m-clark.github.io/posts/2020-04-10-psych-explained/) by Michael Clark
+| **[Article]** [Factor Analysis in R with Psych Package: Measuring Consumer Involvement](https://www.r-bloggers.com/2019/01/factor-analysis-in-r-with-psych-package-measuring-consumer-involvement/) by Peter Prevos
+| **[Article]** [Factor Analysis in R](http://jinjian-mu.com/tutorial/2021-04-14-Factor%20Analysis/) by Jinjian Mu
+
+| **[Course]** [Applied Data Mining and Statistical Learning](https://online.stat.psu.edu/stat508/) by Penn State Eberly College of Science
+|
+|
+|
+|

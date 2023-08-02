@@ -1,5 +1,5 @@
 ---
-title: 'Unsupervised Learning : Exploring and Visualizing Extracted Dimensions from Principal Component Algorithms'
+title: 'Unsupervised Learning : Discovering Latent Dimensions using Exploratory Factor Analysis with Extraction and Rotation Method Combinations'
 author: "John Pauline Pineda"
 date: "August 10, 2023"
 output: 
@@ -525,7 +525,7 @@ EDA.PropTable.Function <- function(FactorVar) {
 
 ## 1.5 Factor Analysis
 
-###  1.5.1 Principal Component Analysis (PCA)
+###  1.5.1 Minimum Residual Factor Extraction and Varimax Rotation (FA_MR_V)
 |
 |
 |
@@ -534,6 +534,216 @@ EDA.PropTable.Function <- function(FactorVar) {
 <details><summary><mark style="background-color: #000000;color: #FFFFFF">**Code Chunk | Output**</mark></summary>
 
 ```{r section_1.5.1, warning=FALSE, message=FALSE}
+
+```
+
+</details>
+
+###  1.5.2 Minimum Residual Factor Extraction and Quartimax Rotation (FA_MR_Q)
+|
+|
+|
+|
+
+<details><summary><mark style="background-color: #000000;color: #FFFFFF">**Code Chunk | Output**</mark></summary>
+
+```{r section_1.5.2, warning=FALSE, message=FALSE}
+
+```
+
+</details>
+
+###  1.5.3 Minimum Residual Factor Extraction and Promax Rotation (FA_MR_P)
+|
+|
+|
+|
+
+<details><summary><mark style="background-color: #000000;color: #FFFFFF">**Code Chunk | Output**</mark></summary>
+
+```{r section_1.5.3, warning=FALSE, message=FALSE}
+
+```
+
+</details>
+
+###  1.5.4 Minimum Residual Factor Extraction and Oblimin Rotation (FA_MR_O)
+|
+|
+|
+|
+
+<details><summary><mark style="background-color: #000000;color: #FFFFFF">**Code Chunk | Output**</mark></summary>
+
+```{r section_1.5.4, warning=FALSE, message=FALSE}
+
+```
+
+</details>
+
+###  1.5.5 Weighted Least Squares Factor Extraction and Varimax Rotation (FA_WLS_V)
+|
+|
+|
+|
+
+<details><summary><mark style="background-color: #000000;color: #FFFFFF">**Code Chunk | Output**</mark></summary>
+
+```{r section_1.5.5, warning=FALSE, message=FALSE}
+
+```
+
+</details>
+
+###  1.5.6 Weighted Least Squares Factor Extraction and Quartimax Rotation (FA_WLS_Q)
+|
+|
+|
+|
+
+<details><summary><mark style="background-color: #000000;color: #FFFFFF">**Code Chunk | Output**</mark></summary>
+
+```{r section_1.5.6, warning=FALSE, message=FALSE}
+
+```
+
+</details>
+
+###  1.5.7 Weighted Least Squares Factor Extraction and Promax Rotation (FA_WLS_P)
+|
+|
+|
+|
+
+<details><summary><mark style="background-color: #000000;color: #FFFFFF">**Code Chunk | Output**</mark></summary>
+
+```{r section_1.5.7, warning=FALSE, message=FALSE}
+
+```
+
+</details>
+
+###  1.5.8 Weighted Least Squares Factor Extraction and Oblimin Rotation (FA_WLS_O)
+|
+|
+|
+|
+
+<details><summary><mark style="background-color: #000000;color: #FFFFFF">**Code Chunk | Output**</mark></summary>
+
+```{r section_1.5.8, warning=FALSE, message=FALSE}
+
+```
+
+</details>
+
+###  1.5.9 Principal Analysis Factor Extraction and Varimax Rotation (FA_PA_V)
+|
+|
+|
+|
+
+<details><summary><mark style="background-color: #000000;color: #FFFFFF">**Code Chunk | Output**</mark></summary>
+
+```{r section_1.5.9, warning=FALSE, message=FALSE}
+
+```
+
+</details>
+
+###  1.5.10 Principal Analysis Factor Extraction and Quartimax Rotation (FA_PA_Q)
+|
+|
+|
+|
+
+<details><summary><mark style="background-color: #000000;color: #FFFFFF">**Code Chunk | Output**</mark></summary>
+
+```{r section_1.5.10, warning=FALSE, message=FALSE}
+
+```
+
+</details>
+
+###  1.5.11 Principal Analysis Factor Extraction and Promax Rotation (FA_PA_P)
+|
+|
+|
+|
+
+<details><summary><mark style="background-color: #000000;color: #FFFFFF">**Code Chunk | Output**</mark></summary>
+
+```{r section_1.5.11, warning=FALSE, message=FALSE}
+
+```
+
+</details>
+
+###  1.5.12 Principal Analysis Factor Extraction and Oblimin Rotation (FA_PA_O)
+|
+|
+|
+|
+
+<details><summary><mark style="background-color: #000000;color: #FFFFFF">**Code Chunk | Output**</mark></summary>
+
+```{r section_1.5.12, warning=FALSE, message=FALSE}
+
+```
+
+</details>
+
+###  1.5.13 Maximum Likelihood Factor Extraction and Varimax Rotation (FA_ML_V)
+|
+|
+|
+|
+
+<details><summary><mark style="background-color: #000000;color: #FFFFFF">**Code Chunk | Output**</mark></summary>
+
+```{r section_1.5.13, warning=FALSE, message=FALSE}
+
+```
+
+</details>
+
+###  1.5.14 Maximum Likelihood Factor Extraction and Quartimax Rotation (FA_ML_Q)
+|
+|
+|
+|
+
+<details><summary><mark style="background-color: #000000;color: #FFFFFF">**Code Chunk | Output**</mark></summary>
+
+```{r section_1.5.14, warning=FALSE, message=FALSE}
+
+```
+
+</details>
+
+###  1.5.15 Maximum Likelihood Factor Extraction and Promax Rotation (FA_ML_P)
+|
+|
+|
+|
+
+<details><summary><mark style="background-color: #000000;color: #FFFFFF">**Code Chunk | Output**</mark></summary>
+
+```{r section_1.5.15, warning=FALSE, message=FALSE}
+
+```
+
+</details>
+
+###  1.5.16 Maximum Likelihood Factor Extraction and Oblimin Rotation (FA_ML_O)
+|
+|
+|
+|
+
+<details><summary><mark style="background-color: #000000;color: #FFFFFF">**Code Chunk | Output**</mark></summary>
+
+```{r section_1.5.16, warning=FALSE, message=FALSE}
 
 ```
 

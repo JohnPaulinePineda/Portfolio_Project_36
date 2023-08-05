@@ -80,6 +80,7 @@ library(gplots)
 library(qgraph)
 library(ggplot2)
 library(psych)
+library(nFactors)
 
 ##################################
 # Loading source and
@@ -558,13 +559,6 @@ if (DPA_HighlyCorrelatedCount > 0) {
 |      **[A.2]** High <span style="color: #FF0000">Tomatometer_Audience</span> = High <span style="color: #FF0000">IMDB_Audience</span>
 |      **[A.3]** Low <span style="color: #FF0000">Tomatometer_Critic_Audience_Gap</span> = Low <span style="color: #FF0000">IMDB_Critic_Audience_Gap</span>
 |
-| **[B]** Movies which won the best picture award generally had the following characteristics:
-|      **[B.1]** High <span style="color: #FF0000">Tomatometer_Critic</span> and <span style="color: #FF0000">IMDB_Critic</span> scores
-|      **[B.2]** High <span style="color: #FF0000">Tomatometer_Audience</span> and <span style="color: #FF0000">IMDB_Audience</span> scores
-|      **[B.3]** Low <span style="color: #FF0000">Tomatometer_Critic_Audience_Gap</span> and <span style="color: #FF0000">IMDB_Critic_Audience_Gap</span> scores
-|      **[B.4]** High <span style="color: #FF0000">Nominations_Total</span> and <span style="color: #FF0000">Nomination_SuccessRate</span> scores
-|      **[B.5]** Winners for the <span style="color: #FF0000">Directing</span> and <span style="color: #FF0000">Screenplay</span> categories
-|
 |
 
 <details><summary><mark style="background-color: #000000;color: #FFFFFF">**Code Chunk | Output**</mark></summary>
@@ -582,7 +576,6 @@ str(EDA_Oscars)
 # grouped by Picture
 ##################################
 splom(~EDA_Oscars[,c(3:10)],
-      groups = EDA_Oscars$Picture,
       pch = 16,
       cex = 1,
       alpha = 0.45,
@@ -590,65 +583,8 @@ splom(~EDA_Oscars[,c(3:10)],
                   "I_CTC", "I_AUD", "I_GAP",
                   "NOM", "WIN%"),
       auto.key = list(points = TRUE, space = "right"),
-      main = "Exploratory Analysis Between Picture and Quantitative Descriptors",
+      main = "Exploratory Analysis Between Quantitative Descriptors",
       xlab = "Scatterplot Matrix of Quantitative Descriptors")
-
-##################################
-# Exploratory analysis
-# among quantitative descriptors
-# grouped by Year
-##################################
-splom(~EDA_Oscars[,c(3:10)],
-      groups = EDA_Oscars$Year,
-      pch = 16,
-      cex = 1,
-      alpha = 0.45,
-      varnames = c("T_CTC", "T_AUD", "T_GAP",
-                  "I_CTC", "I_AUD", "I_GAP",
-                  "NOM", "WIN%"),
-      auto.key = list(points = TRUE, space = "right"),
-      main = "Exploratory Analysis Between Year and Quantitative Descriptors",
-      xlab = "Scatterplot Matrix of Quantitative Descriptors")
-
-##################################
-# Exploratory analysis
-# among qualitative descriptors
-# grouped by Picture
-##################################
-
-##################################
-# Creating a function to formulate
-# the proportions table
-##################################
-EDA.PropTable.Function <- function(FactorVar) {
-  EDA.Bar.Source.FactorVar <- EDA_Oscars[,c("Picture",
-                                          FactorVar)]
-  EDA.Bar.Source.FactorVar.Prop <- as.data.frame(prop.table(table(EDA.Bar.Source.FactorVar), 2))
-  names(EDA.Bar.Source.FactorVar.Prop)[2] <- "Status"
-  EDA.Bar.Source.FactorVar.Prop$Variable <- rep(FactorVar,nrow(EDA.Bar.Source.FactorVar.Prop))
-  
-  return(EDA.Bar.Source.FactorVar.Prop)
-}
-
-(EDA.Bar.Source.FactorVar.Prop <- rbind(EDA.PropTable.Function(names(EDA_Oscars)[14]),
-                                       EDA.PropTable.Function(names(EDA_Oscars)[15]),
-                                       EDA.PropTable.Function(names(EDA_Oscars)[16]),
-                                       EDA.PropTable.Function(names(EDA_Oscars)[17]),
-                                       EDA.PropTable.Function(names(EDA_Oscars)[18]),
-                                       EDA.PropTable.Function(names(EDA_Oscars)[19]),
-                                       EDA.PropTable.Function(names(EDA_Oscars)[20])))
-
-(EDA.Barchart.FactorVar <- barchart(EDA.Bar.Source.FactorVar.Prop[,3] ~
-                                      EDA.Bar.Source.FactorVar.Prop[,2] |
-                                      EDA.Bar.Source.FactorVar.Prop[,4],
-                                      data=EDA.Bar.Source.FactorVar.Prop,
-                                      groups = EDA.Bar.Source.FactorVar.Prop[,1],
-                                      stack=TRUE,
-                                      ylab = "Proportion",
-                                      layout=(c(3,3)),
-      auto.key = list(points = TRUE, space = "right"),
-      main = "Exploratory Analysis Between Picture and Qualitative Descriptors",
-      xlab = "Bar Chart of Qualitative Descriptors"))
 
 ```
 
@@ -665,6 +601,44 @@ EDA.PropTable.Function <- function(FactorVar) {
 <details><summary><mark style="background-color: #000000;color: #FFFFFF">**Code Chunk | Output**</mark></summary>
 
 ```{r section_1.5.1, warning=FALSE, message=FALSE}
+
+set.seed(88888888)
+(FA_MR_V_ParallelAnalysis <- fa.parallel(Oscars.FA,
+                                        fm="minres",
+                                        fa="fa",
+                                        n.iter=500,
+                                        plot=FALSE))
+
+
+(FA_MR_V_MinimumAveragePartialAnalysis <-VSS(Oscars.FA, 
+                                            fm="minres",
+                                            rotate = "varimax",
+                                            n.obs=nrow(Oscars.FA),
+                                            plot=FALSE))
+
+FA_MR_V <- fa(Oscars.FA, 
+              nfactors = 2, 
+              fm="minres",
+              rotate = "varimax",
+              residuals=TRUE,
+              SMC=TRUE,
+              n.obs=nrow(Oscars.FA))
+
+print(FA_MR_V,
+      digits=5,
+      sort=TRUE)
+
+(FA_MR_V_Residual <- residuals(FA_MR_V,
+                              diag=FALSE,
+                              na.rm=TRUE))
+
+fa.diagram(FA_MR_V,
+           sort=TRUE,
+           cut=0,
+           digits=5,
+           main="FA_MR_V",
+           cex=0.75)
+
 
 ```
 

@@ -79,6 +79,7 @@ library(FactoMineR)
 library(gplots)
 library(qgraph)
 library(ggplot2)
+library(psych)
 
 ##################################
 # Loading source and
@@ -505,7 +506,7 @@ if (DPA_HighlyCorrelatedCount > 0) {
 ##################################
 # Computing the determinant of the correlation matrix
 ##################################
-det(cor(Oscars.FA))
+(DPA_CorrelationMatrixDeterminant <- det(cor(Oscars.FA)))
 
 ```
 
@@ -520,6 +521,11 @@ det(cor(Oscars.FA))
 <details><summary><mark style="background-color: #000000;color: #FFFFFF">**Code Chunk | Output**</mark></summary>
 
 ```{r section_1.3.3, warning=FALSE, message=FALSE}
+##################################
+# Calculating the Bartlett's Test of Sphericity
+##################################
+(DPA_BartlettTest <- cortest.bartlett(Oscars.FA,
+                                     n=nrow(Oscars.FA)))
 
 ```
 
@@ -534,6 +540,10 @@ det(cor(Oscars.FA))
 <details><summary><mark style="background-color: #000000;color: #FFFFFF">**Code Chunk | Output**</mark></summary>
 
 ```{r section_1.3.4, warning=FALSE, message=FALSE}
+##################################
+# Calculating the Kaiser-Meyer-Olkin Factor Adequacy
+##################################
+(DPA_KMOFactorAdequacy <- KMO(Oscars.FA))
 
 ```
 

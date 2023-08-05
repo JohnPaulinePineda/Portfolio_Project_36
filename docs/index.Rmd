@@ -418,6 +418,48 @@ summary(Oscars.FA)
 
 </details>
 
+###  1.3.2 Correlation Matrix Assessment - Determinant Computation
+|
+|
+|
+|
+
+<details><summary><mark style="background-color: #000000;color: #FFFFFF">**Code Chunk | Output**</mark></summary>
+
+```{r section_1.3.2, warning=FALSE, message=FALSE}
+
+```
+
+</details>
+
+###  1.3.3 Correlation Matrix Assessment - Bartlett’s Test of Sphericity
+|
+|
+|
+|
+
+<details><summary><mark style="background-color: #000000;color: #FFFFFF">**Code Chunk | Output**</mark></summary>
+
+```{r section_1.3.3, warning=FALSE, message=FALSE}
+
+```
+
+</details>
+
+###  1.3.4 Correlation Matrix Assessment - Kaiser-Meyer-Olkin Factor Adequacy
+|
+|
+|
+|
+
+<details><summary><mark style="background-color: #000000;color: #FFFFFF">**Code Chunk | Output**</mark></summary>
+
+```{r section_1.3.4, warning=FALSE, message=FALSE}
+
+```
+
+</details>
+
 ## 1.4 Data Exploration
 |
 | Exploratory data analysis:

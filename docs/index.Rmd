@@ -77,6 +77,8 @@ library(stats)
 library(factoextra)
 library(FactoMineR)
 library(gplots)
+library(qgraph)
+library(ggplot2)
 
 ##################################
 # Loading source and
@@ -427,6 +429,83 @@ summary(Oscars.FA)
 <details><summary><mark style="background-color: #000000;color: #FFFFFF">**Code Chunk | Output**</mark></summary>
 
 ```{r section_1.3.2, warning=FALSE, message=FALSE}
+##################################
+# Visualizing pairwise correlation between descriptor
+##################################
+(DPA_Correlation <- cor(Oscars.FA,
+                        method = "pearson",
+                        use="pairwise.complete.obs"))
+
+DPA_CorrelationTest <- cor.mtest(Oscars.FA,
+                       method = "pearson",
+                       conf.level = 0.95)
+
+corrplot(cor(Oscars.FA,
+             method = "pearson",
+             use="pairwise.complete.obs"), 
+             method = "circle",
+             type = "upper", 
+             order = "original", 
+             tl.col = "black", 
+             tl.cex = 0.75,
+             tl.srt = 90, 
+             sig.level = 0.05, 
+             p.mat = DPA_CorrelationTest$p,
+             insig = "blank")
+
+corrplot(cor(Oscars.FA,
+             method = "pearson",
+             use="pairwise.complete.obs"), 
+             method = "number",
+             type = "upper", 
+             order = "original", 
+             tl.col = "black", 
+             tl.cex = 0.75,
+             tl.srt = 90, 
+             sig.level = 0.05, 
+             p.mat = DPA_CorrelationTest$p,
+             insig = "blank")
+
+##################################
+# Identifying the minimally correlated variables
+##################################
+(DPA_MinimallyCorrelatedCount <- sum(abs(DPA_Correlation[upper.tri(DPA_Correlation)])>0.30))
+
+qgraph(cor(Oscars.FA),
+       cut=0.30,
+       details=TRUE,
+       posCol="#2F75B5",
+       negCol="#FF5050",
+       labels=names(Oscars.FA))
+
+##################################
+# Identifying the highly correlated variables
+##################################
+(DPA_HighlyCorrelatedCount <- sum(abs(DPA_Correlation[upper.tri(DPA_Correlation)])>0.90))
+
+if (DPA_HighlyCorrelatedCount > 0) {
+  DPA_HighlyCorrelated <- findCorrelation(DPA_Correlation, cutoff = 0.90)
+  
+  (DPA_HighlyCorrelatedForRemoval <- length(DPA_HighlyCorrelated))
+  
+  print(paste0("High correlation can be resolved by removing ",
+               (DPA_HighlyCorrelatedForRemoval),
+               " numeric variable(s)."))
+  
+  for (j in 1:DPA_HighlyCorrelatedForRemoval) {
+  DPA_HighlyCorrelatedRemovedVariable <- colnames(DPA.Predictors.Numeric)[DPA_HighlyCorrelated[j]]
+  print(paste0("Variable ",
+               j,
+               " for removal: ",
+               DPA_HighlyCorrelatedRemovedVariable))
+  }
+  
+}
+
+##################################
+# Computing the determinant of the correlation matrix
+##################################
+det(cor(Oscars.FA))
 
 ```
 

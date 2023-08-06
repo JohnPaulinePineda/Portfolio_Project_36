@@ -20,7 +20,7 @@ knitr::opts_chunk$set(echo = TRUE, fig.width=15, fig.height=10)
 |
 ##  1.1 Sample Data
 |
-| The [<mark style="background-color: #EEEEEE;color: #FF0000">**TeacherEvaluation**</mark>](https://real-statistics.com/multivariate-statistics/factor-analysis/factor-analysis-example/) datasets obtained from the  [<mark style="background-color: #CCECFF">**Real Statistics Using Excel**</mark>](https://real-statistics.com/) website by [**Charles Zaiontz**](https://real-statistics.com/contact-us/) was used for this illustrated example.   
+| The [<mark style="background-color: #EEEEEE;color: #FF0000">**TeacherEvaluation**</mark>](https://real-statistics.com/multivariate-statistics/factor-analysis/factor-analysis-example/) dataset obtained from the [<mark style="background-color: #CCECFF">**Real Statistics Using Excel**</mark>](https://real-statistics.com/) website by [Charles Zaiontz](https://real-statistics.com/contact-us/) was used for this illustrated example.   
 |
 | Preliminary dataset assessment:
 |
@@ -668,10 +668,10 @@ for (i in 1:ncol(DPA.Descriptors.Numeric)) {
 
 ```{r section_1.4.1, warning=FALSE, message=FALSE}
 
-# ##################################
-# # Computing the determinant of the correlation matrix
-# ##################################
-# (DPA_CorrelationMatrixDeterminant <- det(cor(TeacherEvaluation.FA)))
+##################################
+# Computing the determinant of the correlation matrix
+##################################
+(DPA_CorrelationMatrixDeterminant <- det(cor(DPA.Descriptors.Numeric)))
 
 ```
 
@@ -686,11 +686,11 @@ for (i in 1:ncol(DPA.Descriptors.Numeric)) {
 <details><summary><mark style="background-color: #000000;color: #FFFFFF">**Code Chunk | Output**</mark></summary>
 
 ```{r section_1.4.2, warning=FALSE, message=FALSE}
-# ##################################
-# # Calculating the Bartlett's Test of Sphericity
-# ##################################
-# (DPA_BartlettTest <- cortest.bartlett(TeacherEvaluation.FA,
-#                                       n=nrow(TeacherEvaluation.FA)))
+##################################
+# Calculating the Bartlett's Test of Sphericity
+##################################
+(DPA_BartlettTest <- cortest.bartlett(DPA.Descriptors.Numeric,
+                                      n=nrow(DPA.Descriptors.Numeric)))
 
 ```
 
@@ -705,13 +705,10 @@ for (i in 1:ncol(DPA.Descriptors.Numeric)) {
 <details><summary><mark style="background-color: #000000;color: #FFFFFF">**Code Chunk | Output**</mark></summary>
 
 ```{r section_1.4.3, warning=FALSE, message=FALSE}
-# ##################################
-# # Calculating the Kaiser-Meyer-Olkin Factor Adequacy
-# ##################################
-# (DPA_KMOFactorAdequacy <- KMO(TeacherEvaluation.FA))
-# (DPA_KMOFactorAdequacy <- KMO(TeacherEvaluation.FA[,!names(TeacherEvaluation.FA) %in% c("ONOM")]))
-# (DPA_KMOFactorAdequacy <- KMO(TeacherEvaluation.FA[,!names(TeacherEvaluation.FA) %in% c("OWIN")]))
-# (DPA_KMOFactorAdequacy <- KMO(TeacherEvaluation.FA[,!names(TeacherEvaluation.FA) %in% c("ONOM","OWIN")]))
+##################################
+# Calculating the Kaiser-Meyer-Olkin Factor Adequacy
+##################################
+(DPA_KMOFactorAdequacy <- KMO(DPA.Descriptors.Numeric))
 
 ```
 
@@ -731,24 +728,17 @@ for (i in 1:ncol(DPA.Descriptors.Numeric)) {
 <details><summary><mark style="background-color: #000000;color: #FFFFFF">**Code Chunk | Output**</mark></summary>
 
 ```{r section_1.5, warning=FALSE, message=FALSE}
-# ##################################
-# # Loading dataset
-# ##################################
-# EDA_TeacherEvaluation <- TeacherEvaluation
-# str(EDA_TeacherEvaluation)
-# 
-# ##################################
-# # Exploratory analysis
-# # among quantitative descriptors
-# # grouped by Picture
-# ##################################
-# splom(~EDA_TeacherEvaluation,
-#       pch = 16,
-#       cex = 1,
-#       alpha = 0.45,
-#       auto.key = list(points = TRUE, space = "right"),
-#       main = "Exploratory Analysis Between Quantitative Descriptors",
-#       xlab = "Scatterplot Matrix of Quantitative Descriptors")
+##################################
+# Exploratory analysis
+# among quantitative descriptors
+##################################
+splom(~DPA.Descriptors.Numeric,
+      pch = 16,
+      cex = 1,
+      alpha = 0.45,
+      auto.key = list(points = TRUE, space = "right"),
+      main = "Exploratory Analysis Between Descriptors",
+      xlab = "Scatterplot Matrix of Descriptors")
 
 ```
 
@@ -996,6 +986,8 @@ for (i in 1:ncol(DPA.Descriptors.Numeric)) {
 | **[Article]** [Factor Analysis Example](https://real-statistics.com/multivariate-statistics/factor-analysis/factor-analysis-example/) by Charles Zaiontz
 | **[Article]** [Factor Analysis Guide with an Example](https://statisticsbyjim.com/basics/factor-analysis/) by Jim Frost
 | **[Article]** [What Is Factor Analysis and How Does It Simplify Research Findings?](https://www.qualtrics.com/experience-management/research/factor-analysis/) by Qualtrics Team
+| **[Article]** [How Can I Perform A Factor Analysis With Categorical (Or Categorical And Continuous) Variables?](https://stats.oarc.ucla.edu/stata/faq/how-can-i-perform-a-factor-analysis-with-categorical-or-categorical-and-continuous-variables/) by UCLA Advanced Research Computing Team
+| **[Article]** [Factor Analysis on Ordinal Data Example in R (psych, homals)](https://alice86.github.io/2018/04/08/Factor-Analysis-on-Ordinal-Data-example-in-R-(psych,-homals)/) by Jiayu Wu
 | **[Publication]** [Dandelion Plot: A Method for the Visualization of R-mode Exploratory Factor Analyses](https://link.springer.com/article/10.1007/s00180-014-0518-x) by Artur Manukyan, Erhan Cene, Ahmet Sedef and Ibrahim Demir (Computational Statistics) 
 | **[Course]** [Applied Data Mining and Statistical Learning](https://online.stat.psu.edu/stat508/) by Penn State Eberly College of Science
 |

@@ -47,6 +47,8 @@ knitr::opts_chunk$set(echo = TRUE, fig.width=15, fig.height=10)
 # Loading R libraries
 ##################################
 library(AppliedPredictiveModeling)
+library(performance)
+library(parameters)
 library(caret)
 library(psych)
 library(lattice)
@@ -72,6 +74,7 @@ library(nFactors)
 library(MBESS)
 library(DandEFA)
 library(EFAtools)
+
 
 ##################################
 # Loading source and
@@ -130,7 +133,6 @@ DQA <- TeacherEvaluation
 # Formulating an overall data quality assessment summary
 ##################################
 (DQA.Summary <- data.frame(
-  Column.Index=c(1:length(names(DQA))),
   Column.Name= names(DQA),
   Column.Type=sapply(DQA, function(x) class(x)),
   Row.Count=sapply(DQA, function(x) nrow(DQA)),
@@ -710,6 +712,19 @@ for (i in 1:ncol(DPA.Descriptors.Numeric)) {
 ##################################
 (DPA_KMOFactorAdequacy <- KMO(DPA.Descriptors.Numeric))
 
+##################################
+# Calculating the Kaiser-Meyer-Olkin Factor Adequacy
+##################################
+(DPA_KMOFactorAdequacy <- KMO(DPA.Descriptors.Numeric[,!names(DPA.Descriptors.Numeric) %in% c("FRI")]))
+
+##################################
+# Calculating the Kaiser-Meyer-Olkin Factor Adequacy
+##################################
+(DPA_KMOFactorAdequacy <- KMO(DPA.Descriptors.Numeric[,!names(DPA.Descriptors.Numeric) %in% c("FRI","EXP")]))
+
+DPA.Descriptors.Numeric <- DPA.Descriptors.Numeric[,!names(DPA.Descriptors.Numeric) %in% c("FRI","EXP")]
+
+
 ```
 
 </details>
@@ -768,21 +783,31 @@ set.seed(88888888)
                                         n.iter=500,
                                         plot=FALSE))
 
+(FA_PA_V_MethodAgreementProcedure <- parameters::n_factors(DPA.Descriptors.Numeric))
+
+as.data.frame(FA_PA_V_MethodAgreementProcedure)
+
 ##################################
 # Conducting exploratory factor analysis
 # using Principal Axes extraction
 # and Varimax rotation
 ##################################
 FA_PA_V <- fa(DPA.Descriptors.Numeric,
-              nfactors = 3,
+              nfactors = 2,
               fm="pa",
               rotate = "varimax",
               residuals=TRUE,
               SMC=TRUE,
               n.obs=nrow(DPA.Descriptors.Numeric))
 
+
+(FA_PA_V_Summary <- FA_PA_V %>%
+  model_parameters(sort = TRUE, threshold = "max"))
+
+summary(FA_PA_V_Summary)
+
 print(FA_PA_V,
-      digits=3,
+      digits=2,
       sort=TRUE)
 
 ##################################
@@ -809,9 +834,8 @@ fa.diagram(FA_PA_V,
 # Cronbach's alpha coefficient
 # for each factor
 ##################################
-alpha(DPA.Descriptors.Numeric[,c("CHA","COM","ENT","PAS","MAS")])
-alpha(DPA.Descriptors.Numeric[,c("FRI","EXP")])
-alpha(DPA.Descriptors.Numeric[,c("MOT","CAR")])
+alpha(DPA.Descriptors.Numeric[,c("CHA","COM","ENT")])
+alpha(DPA.Descriptors.Numeric[,c("MOT","PAS","CAR","MAS")])
 
 ##################################
 # Formulating the dandelion plot to
@@ -821,7 +845,7 @@ alpha(DPA.Descriptors.Numeric[,c("MOT","CAR")])
 FA_PA_V_FactorLoading <- factload(DPA.Descriptors.Numeric,
                                   cormeth = "pearson",
                                   method = "prax",
-                                  nfac = 3,
+                                  nfac = 2,
                                   rotation = "varimax")
 
 DandelionPlotPalette <- rev(rainbow(100, start = 0, end = 0.2))
@@ -844,19 +868,83 @@ dandelion(FA_PA_V_FactorLoading,
 <details><summary><mark style="background-color: #000000;color: #FFFFFF">**Code Chunk | Output**</mark></summary>
 
 ```{r section_1.6.2, warning=FALSE, message=FALSE}
+##################################
+# Comparing the scree of factors
+# of the observed data with that
+# of a random data matrix
+# of the same size as the original
+##################################
+set.seed(88888888)
+(FA_PA_P_ParallelAnalysis <- fa.parallel(DPA.Descriptors.Numeric,
+                                        fm="pa",
+                                        fa="fa",
+                                        n.iter=500,
+                                        plot=FALSE))
 
-# FA_PA_V_FactorLoading <- factload(TeacherEvaluation.FA, 
-#                                   cormeth = "pearson",
-#                                   method = "prax", 
-#                                   nfac = 2, 
-#                                   rotation = "promax")
-# 
-# DandelionPlotPalette <- rev(rainbow(100, start = 0, end = 0.2))
-# 
-# dandelion(FA_PA_V_FactorLoading,
-#           bound=0,
-#           mcex=c(1,1.2),
-#           palet=DandelionPlotPalette)
+##################################
+# Conducting exploratory factor analysis
+# using Principal Axes extraction
+# and Promax rotation
+##################################
+FA_PA_P <- fa(DPA.Descriptors.Numeric,
+              nfactors = 2,
+              fm="pa",
+              rotate = "promax",
+              residuals=TRUE,
+              SMC=TRUE,
+              n.obs=nrow(DPA.Descriptors.Numeric))
+
+FA_PA_P %>%
+  model_parameters(sort = TRUE, threshold = "max")
+
+print(FA_PA_P,
+      digits=3,
+      sort=TRUE)
+
+##################################
+# Extracting the residuals
+# from the Exploratory Factor Analysis
+##################################
+(FA_PA_P_Residual <- residuals(FA_PA_P,
+                              diag=FALSE,
+                              na.rm=TRUE))
+
+##################################
+# Graph the factor loading matrices
+##################################
+fa.diagram(FA_PA_P,
+           sort=TRUE,
+           cut=0,
+           digits=3,
+           main="FA_PA_P",
+           cex=0.75)
+
+##################################
+# computing the internal consistency
+# measure of reliability using the
+# Cronbach's alpha coefficient
+# for each factor
+##################################
+alpha(DPA.Descriptors.Numeric[,c("CHA","COM","ENT")])
+alpha(DPA.Descriptors.Numeric[,c("MOT","CAR","PAS","MAS")])
+
+##################################
+# Formulating the dandelion plot to
+# visualize both factor variances and loadings
+# from the factor loading matrices
+##################################
+FA_PA_P_FactorLoading <- factload(DPA.Descriptors.Numeric,
+                                  cormeth = "pearson",
+                                  method = "prax",
+                                  nfac = 2,
+                                  rotation = "promax")
+
+DandelionPlotPalette <- rev(rainbow(100, start = 0, end = 0.2))
+
+dandelion(FA_PA_P_FactorLoading,
+          bound=0,
+          mcex=c(1,1.2),
+          palet=DandelionPlotPalette)
 
 ```
 
@@ -872,18 +960,84 @@ dandelion(FA_PA_V_FactorLoading,
 
 ```{r section_1.6.3, warning=FALSE, message=FALSE}
 
-# FA_ML_V_FactorLoading <- factload(TeacherEvaluation.FA, 
-#                                   cormeth = "pearson",
-#                                   method = "mle", 
-#                                   nfac = 2, 
-#                                   rotation = "varimax")
-# 
-# DandelionPlotPalette <- rev(rainbow(100, start = 0, end = 0.2))
-# 
-# dandelion(FA_ML_V_FactorLoading,
-#           bound=0,
-#           mcex=c(1,1.2),
-#           palet=DandelionPlotPalette)
+##################################
+# Comparing the scree of factors
+# of the observed data with that
+# of a random data matrix
+# of the same size as the original
+##################################
+set.seed(88888888)
+(FA_ML_V_ParallelAnalysis <- fa.parallel(DPA.Descriptors.Numeric,
+                                        fm="ml",
+                                        fa="fa",
+                                        n.iter=500,
+                                        plot=FALSE))
+
+##################################
+# Conducting exploratory factor analysis
+# using Principal Axes extraction
+# and Varimax rotation
+##################################
+FA_ML_V <- fa(DPA.Descriptors.Numeric,
+              nfactors = 2,
+              fm="ml",
+              rotate = "varimax",
+              residuals=TRUE,
+              SMC=TRUE,
+              n.obs=nrow(DPA.Descriptors.Numeric))
+
+
+FA_ML_V %>%
+  model_parameters(sort = TRUE, threshold = "max")
+
+print(FA_ML_V,
+      digits=3,
+      sort=TRUE)
+
+##################################
+# Extracting the residuals
+# from the Exploratory Factor Analysis
+##################################
+(FA_ML_V_Residual <- residuals(FA_ML_V,
+                              diag=FALSE,
+                              na.rm=TRUE))
+
+##################################
+# Graph the factor loading matrices
+##################################
+fa.diagram(FA_ML_V,
+           sort=TRUE,
+           cut=0,
+           digits=3,
+           main="FA_ML_V",
+           cex=0.75)
+
+##################################
+# computing the internal consistency
+# measure of reliability using the
+# Cronbach's alpha coefficient
+# for each factor
+##################################
+alpha(DPA.Descriptors.Numeric[,c("CHA","COM","ENT")])
+alpha(DPA.Descriptors.Numeric[,c("MOT","CAR","PAS","MAS")])
+
+##################################
+# Formulating the dandelion plot to
+# visualize both factor variances and loadings
+# from the factor loading matrices
+##################################
+FA_ML_V_FactorLoading <- factload(DPA.Descriptors.Numeric,
+                                  cormeth = "pearson",
+                                  method = "mle",
+                                  nfac = 2,
+                                  rotation = "varimax")
+
+DandelionPlotPalette <- rev(rainbow(100, start = 0, end = 0.2))
+
+dandelion(FA_ML_V_FactorLoading,
+          bound=0,
+          mcex=c(1,1.2),
+          palet=DandelionPlotPalette)
 
 ```
 
@@ -899,18 +1053,84 @@ dandelion(FA_PA_V_FactorLoading,
 
 ```{r section_1.6.4, warning=FALSE, message=FALSE}
 
-# FA_ML_V_FactorLoading <- factload(TeacherEvaluation.FA, 
-#                                   cormeth = "pearson",
-#                                   method = "mle", 
-#                                   nfac = 2, 
-#                                   rotation = "promax")
-# 
-# DandelionPlotPalette <- rev(rainbow(100, start = 0, end = 0.2))
-# 
-# dandelion(FA_ML_P_FactorLoading,
-#           bound=0,
-#           mcex=c(1,1.2),
-#           palet=DandelionPlotPalette)
+##################################
+# Comparing the scree of factors
+# of the observed data with that
+# of a random data matrix
+# of the same size as the original
+##################################
+set.seed(88888888)
+(FA_ML_P_ParallelAnalysis <- fa.parallel(DPA.Descriptors.Numeric,
+                                        fm="ml",
+                                        fa="fa",
+                                        n.iter=500,
+                                        plot=FALSE))
+
+##################################
+# Conducting exploratory factor analysis
+# using Principal Axes extraction
+# and Promax rotation
+##################################
+FA_ML_V <- fa(DPA.Descriptors.Numeric,
+              nfactors = 2,
+              fm="ml",
+              rotate = "promax",
+              residuals=TRUE,
+              SMC=TRUE,
+              n.obs=nrow(DPA.Descriptors.Numeric))
+
+
+FA_ML_V %>%
+  model_parameters(sort = TRUE, threshold = "max")
+
+print(FA_ML_V,
+      digits=3,
+      sort=TRUE)
+
+##################################
+# Extracting the residuals
+# from the Exploratory Factor Analysis
+##################################
+(FA_ML_P_Residual <- residuals(FA_ML_V,
+                              diag=FALSE,
+                              na.rm=TRUE))
+
+##################################
+# Graph the factor loading matrices
+##################################
+fa.diagram(FA_ML_V,
+           sort=TRUE,
+           cut=0,
+           digits=3,
+           main="FA_ML_V",
+           cex=0.75)
+
+##################################
+# computing the internal consistency
+# measure of reliability using the
+# Cronbach's alpha coefficient
+# for each factor
+##################################
+alpha(DPA.Descriptors.Numeric[,c("CHA","COM","ENT")])
+alpha(DPA.Descriptors.Numeric[,c("MOT","CAR","PAS","MAS")])
+
+##################################
+# Formulating the dandelion plot to
+# visualize both factor variances and loadings
+# from the factor loading matrices
+##################################
+(FA_ML_P_FactorLoading <- factload(DPA.Descriptors.Numeric,
+                                  cormeth = "pearson",
+                                  method = "mle",
+                                  nfac = 2,
+                                  rotation = "promax"))
+
+DandelionPlotPalette <- rev(rainbow(100, start = 0, end = 0.2))
+
+dandelion(FA_ML_P_FactorLoading,
+          bound=0,
+          mcex=c(1,1.2),
+          palet=DandelionPlotPalette)
 
 ```
 

@@ -1154,6 +1154,14 @@ dandelion(FA_ML_P_FactorLoading,
 | **[R Package]** [stats](https://search.r-project.org/R/refmans/stats/html/00Index.html) by R Core Team
 | **[R Package]** [factoextra](https://cran.r-project.org/web/packages/factoextra/factoextra.pdf) by Alboukadel Kassambara and Fabian Mundt
 | **[R Package]** [FactoMineR](https://search.r-project.org/R/refmans/stats/html/00Index.html) by Francois Husson, Julie Josse, Sebastien Le and Jeremy Mazet
+| **[R Package]** [gplots](https://cran.r-project.org/web/packages/gplots/gplots.pdf) by Tal Galili
+| **[R Package]** [qgraph](https://cran.r-project.org/web/packages/qgraph/qgraph.pdf) by Sacha Epskamp
+| **[R Package]** [ggplot2](https://search.r-project.org/R/refmans/stats/html/00Index.html) by Hadley Wickham, Winston Chang, Lionel Henry and Thomas Lin Pedersen
+| **[R Package]** [psych](https://cran.r-project.org/web/packages/psych/psych.pdf) by William Revelle
+| **[R Package]** [nFactors](https://cran.r-project.org/web/packages/nFactors/nFactors.pdf) by Gilles Raiche and David Magis
+| **[R Package]** [MBESS](https://cran.r-project.org/web/packages/MBESS/MBESS.pdf) by Ken Kelley
+| **[R Package]** [DandEFA](https://cran.r-project.org/web/packages/DandEFA/DandEFA.pdf) by Artur Manukyan, Ahmet Sedef, Erhan Cene and Ibrahim Demir
+| **[R Package]** [EFAtools](https://cran.r-project.org/web/packages/EFAtools/EFAtools.pdf) by Markus Steiner and Silvia Grieder
 | **[Article]** [6 Dimensionality Reduction Techniques in R (with Examples)](https://cmdlinetips.com/2022/07/dimensionality-reduction-techniques-in-r/) by CMDLineTips Team
 | **[Article]** [6 Dimensionality Reduction Algorithms With Python](https://machinelearningmastery.com/dimensionality-reduction-algorithms-with-python/) by Jason Brownlee
 | **[Article]** [Introduction to Dimensionality Reduction for Machine Learning](https://machinelearningmastery.com/dimensionality-reduction-for-machine-learning/) by Jason Brownlee

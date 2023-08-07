@@ -755,89 +755,81 @@ splom(~DPA.Descriptors.Numeric,
 <details><summary><mark style="background-color: #000000;color: #FFFFFF">**Code Chunk | Output**</mark></summary>
 
 ```{r section_1.6.1, warning=FALSE, message=FALSE}
-# ##################################
-# # Comparing the scree of factors
-# # of the observed data with that
-# # of a random data matrix
-# # of the same size as the original
-# ##################################
-# set.seed(88888888)
-# (FA_PA_V_ParallelAnalysis <- fa.parallel(TeacherEvaluation.FA,
-#                                         fm="pa",
-#                                         fa="fa",
-#                                         n.iter=500,
-#                                         plot=FALSE))
-# 
-# ##################################
-# # Comparing the scree of factors
-# # of the observed data with that
-# # of a random data matrix
-# # of the same size as the original
-# ##################################
-# (FA_PA_V_MinimumAveragePartialAnalysis <- VSS(TeacherEvaluation.FA,
-#                                               plot=FALSE))
-# 
-# ##################################
-# # Conducting exploratory factor analysis
-# # using Principal Axes extraction
-# # and Varimax rotation
-# ##################################
-# FA_PA_V <- fa(TeacherEvaluation.FA,
-#               nfactors = 2,
-#               fm="pa",
-#               rotate = "varimax",
-#               residuals=TRUE,
-#               SMC=TRUE,
-#               n.obs=nrow(TeacherEvaluation.FA))
-# 
-# print(FA_PA_V,
-#       digits=3,
-#       sort=TRUE)
-# 
-# ##################################
-# # Extracting the residuals
-# # from the Exploratory Factor Analysis
-# ##################################
-# (FA_PA_V_Residual <- residuals(FA_PA_V,
-#                               diag=FALSE,
-#                               na.rm=TRUE))
-# 
-# ##################################
-# # Graph the factor loading matrices
-# ##################################
-# fa.diagram(FA_PA_V,
-#            sort=TRUE,
-#            cut=0,
-#            digits=3,
-#            main="FA_PA_V",
-#            cex=0.75)
-# 
-# ##################################
-# # computing the internal consistency
-# # measure of reliability using the
-# # Cronbach's alpha coefficient
-# # for each factor
-# ##################################
-# alpha(TeacherEvaluation.FA[,c("ICTC","TCTC","ONOM")])
-# alpha(TeacherEvaluation.FA[,c("IAUD","TAUD","OWIN")])
-# 
-# ##################################
-# # Formulating the dandelion plot to
-# # visualize both factor variances and loadings
-# # from the factor loading matrices
-# ##################################
-# FA_PA_V_FactorLoading <- factload(TeacherEvaluation.FA,
-#                                   cormeth = "pearson",
-#                                   method = "prax",
-#                                   nfac = 2,
-#                                   rotation = "varimax")
-# 
-# DandelionPlotPalette <- rev(rainbow(100, start = 0, end = 0.2))
-# 
-# dandelion(FA_PA_V_FactorLoading,
-#           bound=0,
-#           mcex=c(1,1.2),
-#           palet=DandelionPlotPalette)
+##################################
+# Comparing the scree of factors
+# of the observed data with that
+# of a random data matrix
+# of the same size as the original
+##################################
+set.seed(88888888)
+(FA_PA_V_ParallelAnalysis <- fa.parallel(DPA.Descriptors.Numeric,
+                                        fm="pa",
+                                        fa="fa",
+                                        n.iter=500,
+                                        plot=FALSE))
+
+##################################
+# Conducting exploratory factor analysis
+# using Principal Axes extraction
+# and Varimax rotation
+##################################
+FA_PA_V <- fa(DPA.Descriptors.Numeric,
+              nfactors = 3,
+              fm="pa",
+              rotate = "varimax",
+              residuals=TRUE,
+              SMC=TRUE,
+              n.obs=nrow(DPA.Descriptors.Numeric))
+
+print(FA_PA_V,
+      digits=3,
+      sort=TRUE)
+
+##################################
+# Extracting the residuals
+# from the Exploratory Factor Analysis
+##################################
+(FA_PA_V_Residual <- residuals(FA_PA_V,
+                              diag=FALSE,
+                              na.rm=TRUE))
+
+##################################
+# Graph the factor loading matrices
+##################################
+fa.diagram(FA_PA_V,
+           sort=TRUE,
+           cut=0,
+           digits=3,
+           main="FA_PA_V",
+           cex=0.75)
+
+##################################
+# computing the internal consistency
+# measure of reliability using the
+# Cronbach's alpha coefficient
+# for each factor
+##################################
+alpha(DPA.Descriptors.Numeric[,c("CHA","COM","ENT","PAS","MAS")])
+alpha(DPA.Descriptors.Numeric[,c("FRI","EXP")])
+alpha(DPA.Descriptors.Numeric[,c("MOT","CAR")])
+
+##################################
+# Formulating the dandelion plot to
+# visualize both factor variances and loadings
+# from the factor loading matrices
+##################################
+FA_PA_V_FactorLoading <- factload(DPA.Descriptors.Numeric,
+                                  cormeth = "pearson",
+                                  method = "prax",
+                                  nfac = 3,
+                                  rotation = "varimax")
+
+DandelionPlotPalette <- rev(rainbow(100, start = 0, end = 0.2))
+
+dandelion(FA_PA_V_FactorLoading,
+          bound=0,
+          mcex=c(1,1.2),
+          palet=DandelionPlotPalette)
 
 ```
 

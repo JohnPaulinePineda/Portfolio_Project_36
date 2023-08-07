@@ -729,6 +729,35 @@ DPA.Descriptors.Numeric <- DPA.Descriptors.Numeric[,!names(DPA.Descriptors.Numer
 
 </details>
 
+###  1.4.4 Factor Retention - Parallel Analysis
+|
+|
+|
+|
+
+<details><summary><mark style="background-color: #000000;color: #FFFFFF">**Code Chunk | Output**</mark></summary>
+
+```{r section_1.4.4, warning=FALSE, message=FALSE}
+##################################
+# Comparing the scree of factors
+# of the observed data with that
+# of a random data matrix
+# of the same size as the original
+##################################
+set.seed(88888888)
+(DPA_ParallelAnalysis <- fa.parallel(DPA.Descriptors.Numeric,
+                                      fa="fa",
+                                      n.iter=500,
+                                      plot=FALSE))
+
+(DPA_MethodAgreementProcedure <- parameters::n_factors(DPA.Descriptors.Numeric))
+
+as.data.frame(DPA_MethodAgreementProcedure)
+
+```
+
+</details>
+
 ## 1.5 Data Exploration
 |
 | Exploratory data analysis:
@@ -770,23 +799,6 @@ splom(~DPA.Descriptors.Numeric,
 <details><summary><mark style="background-color: #000000;color: #FFFFFF">**Code Chunk | Output**</mark></summary>
 
 ```{r section_1.6.1, warning=FALSE, message=FALSE}
-##################################
-# Comparing the scree of factors
-# of the observed data with that
-# of a random data matrix
-# of the same size as the original
-##################################
-set.seed(88888888)
-(FA_PA_V_ParallelAnalysis <- fa.parallel(DPA.Descriptors.Numeric,
-                                        fm="pa",
-                                        fa="fa",
-                                        n.iter=500,
-                                        plot=FALSE))
-
-(FA_PA_V_MethodAgreementProcedure <- parameters::n_factors(DPA.Descriptors.Numeric))
-
-as.data.frame(FA_PA_V_MethodAgreementProcedure)
-
 ##################################
 # Conducting exploratory factor analysis
 # using Principal Axes extraction
@@ -869,19 +881,6 @@ dandelion(FA_PA_V_FactorLoading,
 
 ```{r section_1.6.2, warning=FALSE, message=FALSE}
 ##################################
-# Comparing the scree of factors
-# of the observed data with that
-# of a random data matrix
-# of the same size as the original
-##################################
-set.seed(88888888)
-(FA_PA_P_ParallelAnalysis <- fa.parallel(DPA.Descriptors.Numeric,
-                                        fm="pa",
-                                        fa="fa",
-                                        n.iter=500,
-                                        plot=FALSE))
-
-##################################
 # Conducting exploratory factor analysis
 # using Principal Axes extraction
 # and Promax rotation
@@ -959,20 +958,6 @@ dandelion(FA_PA_P_FactorLoading,
 <details><summary><mark style="background-color: #000000;color: #FFFFFF">**Code Chunk | Output**</mark></summary>
 
 ```{r section_1.6.3, warning=FALSE, message=FALSE}
-
-##################################
-# Comparing the scree of factors
-# of the observed data with that
-# of a random data matrix
-# of the same size as the original
-##################################
-set.seed(88888888)
-(FA_ML_V_ParallelAnalysis <- fa.parallel(DPA.Descriptors.Numeric,
-                                        fm="ml",
-                                        fa="fa",
-                                        n.iter=500,
-                                        plot=FALSE))
-
 ##################################
 # Conducting exploratory factor analysis
 # using Principal Axes extraction
@@ -1052,20 +1037,6 @@ dandelion(FA_ML_V_FactorLoading,
 <details><summary><mark style="background-color: #000000;color: #FFFFFF">**Code Chunk | Output**</mark></summary>
 
 ```{r section_1.6.4, warning=FALSE, message=FALSE}
-
-##################################
-# Comparing the scree of factors
-# of the observed data with that
-# of a random data matrix
-# of the same size as the original
-##################################
-set.seed(88888888)
-(FA_ML_P_ParallelAnalysis <- fa.parallel(DPA.Descriptors.Numeric,
-                                        fm="ml",
-                                        fa="fa",
-                                        n.iter=500,
-                                        plot=FALSE))
-
 ##################################
 # Conducting exploratory factor analysis
 # using Principal Axes extraction

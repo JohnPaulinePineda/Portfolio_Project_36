@@ -729,17 +729,10 @@ for (i in 1:ncol(DPA.Descriptors.Numeric)) {
 
 ```{r section_1.4.4, warning=FALSE, message=FALSE}
 ##################################
-# Comparing the scree of factors
-# of the observed data with that
-# of a random data matrix
-# of the same size as the original
+# Implementing various procedures for determining
+# factor retention based on
+# the maximum consensus between methods
 ##################################
-set.seed(88888888)
-(DPA_ParallelAnalysis <- fa.parallel(DPA.Descriptors.Numeric,
-                                      fa="fa",
-                                      n.iter=500,
-                                      plot=FALSE))
-
 (DPA_MethodAgreementProcedure <- parameters::n_factors(DPA.Descriptors.Numeric))
 
 as.data.frame(DPA_MethodAgreementProcedure)
@@ -789,73 +782,203 @@ splom(~DPA.Descriptors.Numeric,
 <details><summary><mark style="background-color: #000000;color: #FFFFFF">**Code Chunk | Output**</mark></summary>
 
 ```{r section_1.6.1, warning=FALSE, message=FALSE}
-# ##################################
-# # Conducting exploratory factor analysis
-# # using Principal Axes extraction
-# # and Varimax rotation
-# ##################################
-# FA_PA_V <- fa(DPA.Descriptors.Numeric,
-#               nfactors = 2,
-#               fm="pa",
-#               rotate = "varimax",
-#               residuals=TRUE,
-#               SMC=TRUE,
-#               n.obs=nrow(DPA.Descriptors.Numeric))
-# 
-# 
-# (FA_PA_V_Summary <- FA_PA_V %>%
-#   model_parameters(sort = TRUE, threshold = "max"))
-# 
-# summary(FA_PA_V_Summary)
-# 
-# print(FA_PA_V,
-#       digits=2,
-#       sort=TRUE)
-# 
-# ##################################
-# # Extracting the residuals
-# # from the Exploratory Factor Analysis
-# ##################################
-# (FA_PA_V_Residual <- residuals(FA_PA_V,
-#                               diag=FALSE,
-#                               na.rm=TRUE))
-# 
-# ##################################
-# # Graph the factor loading matrices
-# ##################################
-# fa.diagram(FA_PA_V,
-#            sort=TRUE,
-#            cut=0,
-#            digits=3,
-#            main="FA_PA_V",
-#            cex=0.75)
-# 
-# ##################################
-# # computing the internal consistency
-# # measure of reliability using the
-# # Cronbach's alpha coefficient
-# # for each factor
-# ##################################
-# alpha(DPA.Descriptors.Numeric[,c("CHA","COM","ENT")])
-# alpha(DPA.Descriptors.Numeric[,c("MOT","PAS","CAR","MAS")])
-# 
-# ##################################
-# # Formulating the dandelion plot to
-# # visualize both factor variances and loadings
-# # from the factor loading matrices
-# ##################################
-# FA_PA_V_FactorLoading <- factload(DPA.Descriptors.Numeric,
-#                                   cormeth = "pearson",
-#                                   method = "prax",
-#                                   nfac = 2,
-#                                   rotation = "varimax")
-# 
-# DandelionPlotPalette <- rev(rainbow(100, start = 0, end = 0.2))
-# 
-# dandelion(FA_PA_V_FactorLoading,
-#           bound=0,
-#           mcex=c(1,1.2),
-#           palet=DandelionPlotPalette)
+##################################
+# Conducting exploratory factor analysis
+# using Principal Axes extraction
+# and Varimax rotation
+# with 3 factors
+##################################
+(FA_PA_V_3F <- fa(DPA.Descriptors.Numeric,
+              nfactors = 3,
+              fm="pa",
+              rotate = "varimax",
+              residuals=TRUE,
+              SMC=TRUE,
+              n.obs=nrow(DPA.Descriptors.Numeric)))
+
+(FA_PA_V_3F_Summary <- FA_PA_V_3F %>%
+  model_parameters(sort = TRUE, threshold = "max"))
+
+summary(FA_PA_V_3F_Summary)
+
+##################################
+# Extracting the residuals
+# from the Exploratory Factor Analysis
+##################################
+(FA_PA_V_3F_Residual <- residuals(FA_PA_V_3F,
+                              diag=FALSE,
+                              na.rm=TRUE))
+
+##################################
+# Graph the factor loading matrices
+##################################
+fa.diagram(FA_PA_V_3F,
+           sort=TRUE,
+           cut=0,
+           digits=3,
+           main="FA_PA_V",
+           cex=0.75)
+
+##################################
+# computing the internal consistency
+# measure of reliability using the
+# Cronbach's alpha coefficient
+# for each factor
+##################################
+alpha(DPA.Descriptors.Numeric[,c("ORGN","COMM","LIKE","APPR","SCON","CFIT")])
+alpha(DPA.Descriptors.Numeric[,c("POTL","EXPR","ACAD","JFIT")])
+alpha(DPA.Descriptors.Numeric[,c("LETT","RESM")])
+
+##################################
+# Formulating the dandelion plot to
+# visualize both factor variances and loadings
+# from the factor loading matrices
+##################################
+FA_PA_V_3F_FactorLoading <- factload(DPA.Descriptors.Numeric,
+                                  cormeth = "pearson",
+                                  method = "prax",
+                                  nfac = 3,
+                                  rotation = "varimax")
+
+DandelionPlotPalette <- rev(rainbow(100, start = 0, end = 0.2))
+
+dandelion(FA_PA_V_3F_FactorLoading,
+          bound=0,
+          mcex=c(1,1.2),
+          palet=DandelionPlotPalette)
+
+##################################
+# Conducting exploratory factor analysis
+# using Principal Axes extraction
+# and Varimax rotation
+# with 4 factors
+##################################
+(FA_PA_V_4F <- fa(DPA.Descriptors.Numeric,
+              nfactors = 4,
+              fm="pa",
+              rotate = "varimax",
+              residuals=TRUE,
+              SMC=TRUE,
+              n.obs=nrow(DPA.Descriptors.Numeric)))
+
+(FA_PA_V_4F_Summary <- FA_PA_V_4F %>%
+  model_parameters(sort = TRUE, threshold = "max"))
+
+summary(FA_PA_V_4F_Summary)
+
+##################################
+# Extracting the residuals
+# from the Exploratory Factor Analysis
+##################################
+(FA_PA_V_4F_Residual <- residuals(FA_PA_V_4F,
+                              diag=FALSE,
+                              na.rm=TRUE))
+
+##################################
+# Graph the factor loading matrices
+##################################
+fa.diagram(FA_PA_V_4F,
+           sort=TRUE,
+           cut=0,
+           digits=3,
+           main="FA_PA_V",
+           cex=0.75)
+
+##################################
+# computing the internal consistency
+# measure of reliability using the
+# Cronbach's alpha coefficient
+# for each factor
+##################################
+alpha(DPA.Descriptors.Numeric[,c("POTL","EXPR","ACAD","JFIT")])
+alpha(DPA.Descriptors.Numeric[,c("ORGN","COMM","CFIT")])
+alpha(DPA.Descriptors.Numeric[,c("SCON","APPR","LIKE")])
+alpha(DPA.Descriptors.Numeric[,c("LETT","RESM")])
+
+##################################
+# Formulating the dandelion plot to
+# visualize both factor variances and loadings
+# from the factor loading matrices
+##################################
+FA_PA_V_4F_FactorLoading <- factload(DPA.Descriptors.Numeric,
+                                  cormeth = "pearson",
+                                  method = "prax",
+                                  nfac = 4,
+                                  rotation = "varimax")
+
+DandelionPlotPalette <- rev(rainbow(100, start = 0, end = 0.2))
+
+dandelion(FA_PA_V_4F_FactorLoading,
+          bound=0,
+          mcex=c(1,1.2),
+          palet=DandelionPlotPalette)
+
+##################################
+# Conducting exploratory factor analysis
+# using Principal Axes extraction
+# and Varimax rotation
+# with 5 factors
+##################################
+(FA_PA_V_5F <- fa(DPA.Descriptors.Numeric,
+              nfactors = 5,
+              fm="pa",
+              rotate = "varimax",
+              residuals=TRUE,
+              SMC=TRUE,
+              n.obs=nrow(DPA.Descriptors.Numeric)))
+
+(FA_PA_V_5F_Summary <- FA_PA_V_5F %>%
+  model_parameters(sort = TRUE, threshold = "max"))
+
+summary(FA_PA_V_5F_Summary)
+
+##################################
+# Extracting the residuals
+# from the Exploratory Factor Analysis
+##################################
+(FA_PA_V_5F_Residual <- residuals(FA_PA_V_5F,
+                              diag=FALSE,
+                              na.rm=TRUE))
+
+##################################
+# Graph the factor loading matrices
+##################################
+fa.diagram(FA_PA_V_5F,
+           sort=TRUE,
+           cut=0,
+           digits=3,
+           main="FA_PA_V",
+           cex=0.75)
+
+##################################
+# computing the internal consistency
+# measure of reliability using the
+# Cronbach's alpha coefficient
+# for each factor
+##################################
+alpha(DPA.Descriptors.Numeric[,c("ACAD","POTL","EXPR")])
+alpha(DPA.Descriptors.Numeric[,c("SCON","LIKE","APPR")])
+alpha(DPA.Descriptors.Numeric[,c("COMM","ORGN")])
+alpha(DPA.Descriptors.Numeric[,c("LETT","RESM")])
+alpha(DPA.Descriptors.Numeric[,c("JFIT","CFIT")])
+
+##################################
+# Formulating the dandelion plot to
+# visualize both factor variances and loadings
+# from the factor loading matrices
+##################################
+FA_PA_V_5F_FactorLoading <- factload(DPA.Descriptors.Numeric,
+                                  cormeth = "pearson",
+                                  method = "prax",
+                                  nfac = 5,
+                                  rotation = "varimax")
+
+DandelionPlotPalette <- rev(rainbow(100, start = 0, end = 0.2))
+
+dandelion(FA_PA_V_5F_FactorLoading,
+          bound=0,
+          mcex=c(1,1.2),
+          palet=DandelionPlotPalette)
 
 ```
 
@@ -1152,6 +1275,8 @@ splom(~DPA.Descriptors.Numeric,
 | **[R Package]** [MBESS](https://cran.r-project.org/web/packages/MBESS/MBESS.pdf) by Ken Kelley
 | **[R Package]** [DandEFA](https://cran.r-project.org/web/packages/DandEFA/DandEFA.pdf) by Artur Manukyan, Ahmet Sedef, Erhan Cene and Ibrahim Demir
 | **[R Package]** [EFAtools](https://cran.r-project.org/web/packages/EFAtools/EFAtools.pdf) by Markus Steiner and Silvia Grieder
+| **[R Package]** [parameters](https://cran.r-project.org/web/packages/parameters/parameters.pdf) by Daniel Ludecke
+| **[R Package]** [performance](https://cran.r-project.org/web/packages/performance/performance.pdf) by Daniel Ludecke
 | **[Article]** [6 Dimensionality Reduction Techniques in R (with Examples)](https://cmdlinetips.com/2022/07/dimensionality-reduction-techniques-in-r/) by CMDLineTips Team
 | **[Article]** [6 Dimensionality Reduction Algorithms With Python](https://machinelearningmastery.com/dimensionality-reduction-algorithms-with-python/) by Jason Brownlee
 | **[Article]** [Introduction to Dimensionality Reduction for Machine Learning](https://machinelearningmastery.com/dimensionality-reduction-for-machine-learning/) by Jason Brownlee

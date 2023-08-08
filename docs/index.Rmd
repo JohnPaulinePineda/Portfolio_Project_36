@@ -1,5 +1,5 @@
 ---
-title: 'Unsupervised Learning : Discovering Latent Dimensions using Exploratory Factor Analysis with Extraction and Rotation Method Combinations'
+title: 'Unsupervised Learning : Discovering Latent Variables in High-Dimensional Data using Exploratory Factor Analysis'
 author: "John Pauline Pineda"
 date: "August 10, 2023"
 output: 
@@ -1850,7 +1850,155 @@ fa.diagram(FA_ML_P_5F,
 
 ```{r section_1.6, warning=FALSE, message=FALSE, dev='png'}
 
+##################################
+# Consolidating the fit indices
+##################################
+FA_RMSSummary <- c(FA_PA_V_3F_RMS,
+                   FA_PA_V_4F_RMS,
+                   FA_PA_V_5F_RMS,
+                   FA_PA_P_3F_RMS,
+                   FA_PA_P_4F_RMS,
+                   FA_PA_P_5F_RMS,
+                   FA_ML_V_3F_RMS,
+                   FA_ML_V_4F_RMS,
+                   FA_ML_V_5F_RMS,
+                   FA_ML_P_3F_RMS,
+                   FA_ML_P_4F_RMS,
+                   FA_ML_P_5F_RMS)
 
+FA_TLISummary <- c(FA_PA_V_3F_TLI,
+                   FA_PA_V_4F_TLI,
+                   FA_PA_V_5F_TLI,
+                   FA_PA_P_3F_TLI,
+                   FA_PA_P_4F_TLI,
+                   FA_PA_P_5F_TLI,
+                   FA_ML_V_3F_TLI,
+                   FA_ML_V_4F_TLI,
+                   FA_ML_V_5F_TLI,
+                   FA_ML_P_3F_TLI,
+                   FA_ML_P_4F_TLI,
+                   FA_ML_P_5F_TLI)
+
+FA_BICSummary <- c(FA_PA_V_3F_BIC,
+                   FA_PA_V_4F_BIC,
+                   FA_PA_V_5F_BIC,
+                   FA_PA_P_3F_BIC,
+                   FA_PA_P_4F_BIC,
+                   FA_PA_P_5F_BIC,
+                   FA_ML_V_3F_BIC,
+                   FA_ML_V_4F_BIC,
+                   FA_ML_V_5F_BIC,
+                   FA_ML_P_3F_BIC,
+                   FA_ML_P_4F_BIC,
+                   FA_ML_P_5F_BIC)
+
+FA_HighResidualRateSummary <- c(FA_PA_V_3F_HighResidualRate,
+                                FA_PA_V_4F_HighResidualRate,
+                                FA_PA_V_5F_HighResidualRate,
+                                FA_PA_P_3F_HighResidualRate,
+                                FA_PA_P_4F_HighResidualRate,
+                                FA_PA_P_5F_HighResidualRate,
+                                FA_ML_V_3F_HighResidualRate,
+                                FA_ML_V_4F_HighResidualRate,
+                                FA_ML_V_5F_HighResidualRate,
+                                FA_ML_P_3F_HighResidualRate,
+                                FA_ML_P_4F_HighResidualRate,
+                                FA_ML_P_5F_HighResidualRate)
+
+FA_AlgorithmSummary <- c("FA_PA_V_3F",
+                         "FA_PA_V_4F",
+                         "FA_PA_V_5F",
+                         "FA_PA_P_3F",
+                         "FA_PA_P_4F",
+                         "FA_PA_P_5F",
+                         "FA_ML_V_3F",
+                         "FA_ML_V_4F",
+                         "FA_ML_V_5F",
+                         "FA_ML_P_3F",
+                         "FA_ML_P_4F",
+                         "FA_ML_P_5F")
+
+FA_Summary <- cbind(FA_RMSSummary,
+                    FA_TLISummary,
+                    FA_BICSummary,
+                    FA_HighResidualRateSummary,
+                    FA_AlgorithmSummary)
+
+FA_Summary <- as.data.frame(FA_Summary)
+names(FA_Summary) <- c("RMS",
+                       "TLI",
+                       "BIC",
+                       "HighResidualRate",
+                       "Algorithm")
+
+FA_Summary$RMS <- as.numeric(as.character(FA_Summary$RMS))
+FA_Summary$TLI <- as.numeric(as.character(FA_Summary$TLI))
+FA_Summary$BIC <- as.numeric(as.character(FA_Summary$BIC))
+FA_Summary$HighResidualRate <- as.numeric(as.character(FA_Summary$HighResidualRate))
+
+FA_Summary$Algorithm <- factor(FA_Summary$Algorithm ,
+                                        levels = c("FA_PA_V_3F",
+                                                   "FA_PA_V_4F",
+                                                   "FA_PA_V_5F",
+                                                   "FA_PA_P_3F",
+                                                   "FA_PA_P_4F",
+                                                   "FA_PA_P_5F",
+                                                   "FA_ML_V_3F",
+                                                   "FA_ML_V_4F",
+                                                   "FA_ML_V_5F",
+                                                   "FA_ML_P_3F",
+                                                   "FA_ML_P_4F",
+                                                   "FA_ML_P_5F"))
+
+print(FA_Summary, row.names=FALSE)
+
+(RMS_Plot <- dotplot(Algorithm ~ RMS,
+                     data = FA_Summary,
+                     main = "Algorithm Standardized Root Mean Square of the Residual Comparison",
+                     ylab = "Algorithm",
+                     xlab = "RMSR",
+                     auto.key = list(adj = 1),
+                     type=c("p", "h"),  
+                     origin = 0,
+                     alpha = 0.45,
+                     pch = 16,
+                     cex = 2))
+
+(TLI_Plot <- dotplot(Algorithm ~ TLI,
+                     data = FA_Summary,
+                     main = "Algorithm Tucker-Lewis Fit Index Comparison",
+                     ylab = "Algorithm",
+                     xlab = "TLI",
+                     auto.key = list(adj = 1),
+                     type=c("p", "h"),  
+                     origin = 0,
+                     alpha = 0.45,
+                     pch = 16,
+                     cex = 2))
+
+(BIC_Plot <- dotplot(Algorithm ~ BIC,
+                     data = FA_Summary,
+                     main = "Algorithm Bayesian Information Criterion Comparison",
+                     ylab = "Algorithm",
+                     xlab = "BIC",
+                     auto.key = list(adj = 1),
+                     type=c("p", "h"),  
+                     origin = 0,
+                     alpha = 0.45,
+                     pch = 16,
+                     cex = 2))
+
+(HighResidualRate_Plot <- dotplot(Algorithm ~ HighResidualRate,
+                     data = FA_Summary,
+                     main = "Algorithm High Residual Rate Comparison",
+                     ylab = "Algorithm",
+                     xlab = "High Residual Rate",
+                     auto.key = list(adj = 1),
+                     type=c("p", "h"),  
+                     origin = 0,
+                     alpha = 0.45,
+                     pch = 16,
+                     cex = 2))
 
 ```
 

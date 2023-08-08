@@ -810,6 +810,18 @@ summary(FA_PA_V_3F_Summary)
                               na.rm=TRUE))
 
 ##################################
+# Obtaining Fit Indices
+##################################
+(FA_PA_V_3F_RMS <- FA_PA_V_3F$rms)
+(FA_PA_V_3F_TLI <- FA_PA_V_3F$TLI)
+(FA_PA_V_3F_BIC <- FA_PA_V_3F$BIC)
+
+(FA_PA_V_3F_MaxResidual   <- max(abs(FA_PA_V_3F_Residual),na.rm=TRUE))
+(FA_PA_V_3F_HighResidual  <- sum(FA_PA_V_3F_Residual>abs(0.05),na.rm=TRUE))
+(FA_PA_V_3F_TotalResidual <- length(DPA.Descriptors.Numeric)*(length(DPA.Descriptors.Numeric)-1)/2)
+(FA_PA_V_3F_HighResidualRate <- FA_PA_V_3F_HighResidual/FA_PA_V_3F_TotalResidual)
+
+##################################
 # Graph the factor loading matrices
 ##################################
 fa.diagram(FA_PA_V_3F,
@@ -873,6 +885,18 @@ summary(FA_PA_V_4F_Summary)
 (FA_PA_V_4F_Residual <- residuals(FA_PA_V_4F,
                               diag=FALSE,
                               na.rm=TRUE))
+
+##################################
+# Obtaining Fit Indices
+##################################
+(FA_PA_V_4F_RMS <- FA_PA_V_4F$rms)
+(FA_PA_V_4F_TLI <- FA_PA_V_4F$TLI)
+(FA_PA_V_4F_BIC <- FA_PA_V_4F$BIC)
+
+(FA_PA_V_4F_MaxResidual   <- max(abs(FA_PA_V_4F_Residual),na.rm=TRUE))
+(FA_PA_V_4F_HighResidual  <- sum(FA_PA_V_4F_Residual>abs(0.05),na.rm=TRUE))
+(FA_PA_V_4F_TotalResidual <- length(DPA.Descriptors.Numeric)*(length(DPA.Descriptors.Numeric)-1)/2)
+(FA_PA_V_4F_HighResidualRate <- FA_PA_V_4F_HighResidual/FA_PA_V_4F_TotalResidual)
 
 ##################################
 # Graph the factor loading matrices
@@ -939,6 +963,18 @@ summary(FA_PA_V_5F_Summary)
 (FA_PA_V_5F_Residual <- residuals(FA_PA_V_5F,
                               diag=FALSE,
                               na.rm=TRUE))
+
+##################################
+# Obtaining Fit Indices
+##################################
+(FA_PA_V_5F_RMS <- FA_PA_V_5F$rms)
+(FA_PA_V_5F_TLI <- FA_PA_V_5F$TLI)
+(FA_PA_V_5F_BIC <- FA_PA_V_5F$BIC)
+
+(FA_PA_V_5F_MaxResidual   <- max(abs(FA_PA_V_5F_Residual),na.rm=TRUE))
+(FA_PA_V_5F_HighResidual  <- sum(FA_PA_V_5F_Residual>abs(0.05),na.rm=TRUE))
+(FA_PA_V_5F_TotalResidual <- length(DPA.Descriptors.Numeric)*(length(DPA.Descriptors.Numeric)-1)/2)
+(FA_PA_V_5F_HighResidualRate <- FA_PA_V_5F_HighResidual/FA_PA_V_5F_TotalResidual)
 
 ##################################
 # Graph the factor loading matrices
@@ -1041,6 +1077,18 @@ summary(FA_PA_P_3F_Summary)
                               na.rm=TRUE))
 
 ##################################
+# Obtaining Fit Indices
+##################################
+(FA_PA_P_3F_RMS <- FA_PA_P_3F$rms)
+(FA_PA_P_3F_TLI <- FA_PA_P_3F$TLI)
+(FA_PA_P_3F_BIC <- FA_PA_P_3F$BIC)
+
+(FA_PA_P_3F_MaxResidual   <- max(abs(FA_PA_P_3F_Residual),na.rm=TRUE))
+(FA_PA_P_3F_HighResidual  <- sum(FA_PA_P_3F_Residual>abs(0.05),na.rm=TRUE))
+(FA_PA_P_3F_TotalResidual <- length(DPA.Descriptors.Numeric)*(length(DPA.Descriptors.Numeric)-1)/2)
+(FA_PA_P_3F_HighResidualRate <- FA_PA_P_3F_HighResidual/FA_PA_P_3F_TotalResidual)
+
+##################################
 # Graph the factor loading matrices
 ##################################
 fa.diagram(FA_PA_P_3F,
@@ -1104,6 +1152,18 @@ summary(FA_PA_P_4F_Summary)
 (FA_PA_P_4F_Residual <- residuals(FA_PA_P_4F,
                               diag=FALSE,
                               na.rm=TRUE))
+
+##################################
+# Obtaining Fit Indices
+##################################
+(FA_PA_P_4F_RMS <- FA_PA_P_4F$rms)
+(FA_PA_P_4F_TLI <- FA_PA_P_4F$TLI)
+(FA_PA_P_4F_BIC <- FA_PA_P_4F$BIC)
+
+(FA_PA_P_4F_MaxResidual   <- max(abs(FA_PA_P_4F_Residual),na.rm=TRUE))
+(FA_PA_P_4F_HighResidual  <- sum(FA_PA_P_4F_Residual>abs(0.05),na.rm=TRUE))
+(FA_PA_P_4F_TotalResidual <- length(DPA.Descriptors.Numeric)*(length(DPA.Descriptors.Numeric)-1)/2)
+(FA_PA_P_4F_HighResidualRate <- FA_PA_P_4F_HighResidual/FA_PA_P_4F_TotalResidual)
 
 ##################################
 # Graph the factor loading matrices
@@ -1170,6 +1230,18 @@ summary(FA_PA_P_5F_Summary)
 (FA_PA_P_5F_Residual <- residuals(FA_PA_P_5F,
                               diag=FALSE,
                               na.rm=TRUE))
+
+##################################
+# Obtaining Fit Indices
+##################################
+(FA_PA_P_5F_RMS <- FA_PA_P_5F$rms)
+(FA_PA_P_5F_TLI <- FA_PA_P_5F$TLI)
+(FA_PA_P_5F_BIC <- FA_PA_P_5F$BIC)
+
+(FA_PA_P_5F_MaxResidual   <- max(abs(FA_PA_P_5F_Residual),na.rm=TRUE))
+(FA_PA_P_5F_HighResidual  <- sum(FA_PA_P_5F_Residual>abs(0.05),na.rm=TRUE))
+(FA_PA_P_5F_TotalResidual <- length(DPA.Descriptors.Numeric)*(length(DPA.Descriptors.Numeric)-1)/2)
+(FA_PA_P_5F_HighResidualRate <- FA_PA_P_5F_HighResidual/FA_PA_P_5F_TotalResidual)
 
 ##################################
 # Graph the factor loading matrices
@@ -1272,6 +1344,18 @@ summary(FA_ML_V_3F_Summary)
                               na.rm=TRUE))
 
 ##################################
+# Obtaining Fit Indices
+##################################
+(FA_ML_V_3F_RMS <- FA_ML_V_3F$rms)
+(FA_ML_V_3F_TLI <- FA_ML_V_3F$TLI)
+(FA_ML_V_3F_BIC <- FA_ML_V_3F$BIC)
+
+(FA_ML_V_3F_MaxResidual   <- max(abs(FA_ML_V_3F_Residual),na.rm=TRUE))
+(FA_ML_V_3F_HighResidual  <- sum(FA_ML_V_3F_Residual>abs(0.05),na.rm=TRUE))
+(FA_ML_V_3F_TotalResidual <- length(DPA.Descriptors.Numeric)*(length(DPA.Descriptors.Numeric)-1)/2)
+(FA_ML_V_3F_HighResidualRate <- FA_ML_V_3F_HighResidual/FA_ML_V_3F_TotalResidual)
+
+##################################
 # Graph the factor loading matrices
 ##################################
 fa.diagram(FA_ML_V_3F,
@@ -1335,6 +1419,18 @@ summary(FA_ML_V_4F_Summary)
 (FA_ML_V_4F_Residual <- residuals(FA_ML_V_4F,
                               diag=FALSE,
                               na.rm=TRUE))
+
+##################################
+# Obtaining Fit Indices
+##################################
+(FA_ML_V_4F_RMS <- FA_ML_V_4F$rms)
+(FA_ML_V_4F_TLI <- FA_ML_V_4F$TLI)
+(FA_ML_V_4F_BIC <- FA_ML_V_4F$BIC)
+
+(FA_ML_V_4F_MaxResidual   <- max(abs(FA_ML_V_4F_Residual),na.rm=TRUE))
+(FA_ML_V_4F_HighResidual  <- sum(FA_ML_V_4F_Residual>abs(0.05),na.rm=TRUE))
+(FA_ML_V_4F_TotalResidual <- length(DPA.Descriptors.Numeric)*(length(DPA.Descriptors.Numeric)-1)/2)
+(FA_ML_V_4F_HighResidualRate <- FA_ML_V_4F_HighResidual/FA_ML_V_4F_TotalResidual)
 
 ##################################
 # Graph the factor loading matrices
@@ -1401,6 +1497,18 @@ summary(FA_ML_V_5F_Summary)
 (FA_ML_V_5F_Residual <- residuals(FA_ML_V_5F,
                               diag=FALSE,
                               na.rm=TRUE))
+
+##################################
+# Obtaining Fit Indices
+##################################
+(FA_ML_V_5F_RMS <- FA_ML_V_5F$rms)
+(FA_ML_V_5F_TLI <- FA_ML_V_5F$TLI)
+(FA_ML_V_5F_BIC <- FA_ML_V_5F$BIC)
+
+(FA_ML_V_5F_MaxResidual   <- max(abs(FA_ML_V_5F_Residual),na.rm=TRUE))
+(FA_ML_V_5F_HighResidual  <- sum(FA_ML_V_5F_Residual>abs(0.05),na.rm=TRUE))
+(FA_ML_V_5F_TotalResidual <- length(DPA.Descriptors.Numeric)*(length(DPA.Descriptors.Numeric)-1)/2)
+(FA_ML_V_5F_HighResidualRate <- FA_ML_V_5F_HighResidual/FA_ML_V_5F_TotalResidual)
 
 ##################################
 # Graph the factor loading matrices
@@ -1503,6 +1611,18 @@ summary(FA_ML_P_3F_Summary)
                               na.rm=TRUE))
 
 ##################################
+# Obtaining Fit Indices
+##################################
+(FA_ML_P_3F_RMS <- FA_ML_P_3F$rms)
+(FA_ML_P_3F_TLI <- FA_ML_P_3F$TLI)
+(FA_ML_P_3F_BIC <- FA_ML_P_3F$BIC)
+
+(FA_ML_P_3F_MaxResidual   <- max(abs(FA_ML_P_3F_Residual),na.rm=TRUE))
+(FA_ML_P_3F_HighResidual  <- sum(FA_ML_P_3F_Residual>abs(0.05),na.rm=TRUE))
+(FA_ML_P_3F_TotalResidual <- length(DPA.Descriptors.Numeric)*(length(DPA.Descriptors.Numeric)-1)/2)
+(FA_ML_P_3F_HighResidualRate <- FA_ML_P_3F_HighResidual/FA_ML_P_3F_TotalResidual)
+
+##################################
 # Graph the factor loading matrices
 ##################################
 fa.diagram(FA_ML_P_3F,
@@ -1566,6 +1686,18 @@ summary(FA_ML_P_4F_Summary)
 (FA_ML_P_4F_Residual <- residuals(FA_ML_P_4F,
                               diag=FALSE,
                               na.rm=TRUE))
+
+##################################
+# Obtaining Fit Indices
+##################################
+(FA_ML_P_4F_RMS <- FA_ML_P_4F$rms)
+(FA_ML_P_4F_TLI <- FA_ML_P_4F$TLI)
+(FA_ML_P_4F_BIC <- FA_ML_P_4F$BIC)
+
+(FA_ML_P_4F_MaxResidual   <- max(abs(FA_ML_P_4F_Residual),na.rm=TRUE))
+(FA_ML_P_4F_HighResidual  <- sum(FA_ML_P_4F_Residual>abs(0.05),na.rm=TRUE))
+(FA_ML_P_4F_TotalResidual <- length(DPA.Descriptors.Numeric)*(length(DPA.Descriptors.Numeric)-1)/2)
+(FA_ML_P_4F_HighResidualRate <- FA_ML_P_4F_HighResidual/FA_ML_P_4F_TotalResidual)
 
 ##################################
 # Graph the factor loading matrices
@@ -1632,6 +1764,18 @@ summary(FA_ML_P_5F_Summary)
 (FA_ML_P_5F_Residual <- residuals(FA_ML_P_5F,
                               diag=FALSE,
                               na.rm=TRUE))
+
+##################################
+# Obtaining Fit Indices
+##################################
+(FA_ML_P_5F_RMS <- FA_ML_P_5F$rms)
+(FA_ML_P_5F_TLI <- FA_ML_P_5F$TLI)
+(FA_ML_P_5F_BIC <- FA_ML_P_5F$BIC)
+
+(FA_ML_P_5F_MaxResidual   <- max(abs(FA_ML_P_5F_Residual),na.rm=TRUE))
+(FA_ML_P_5F_HighResidual  <- sum(FA_ML_P_5F_Residual>abs(0.05),na.rm=TRUE))
+(FA_ML_P_5F_TotalResidual <- length(DPA.Descriptors.Numeric)*(length(DPA.Descriptors.Numeric)-1)/2)
+(FA_ML_P_5F_HighResidualRate <- FA_ML_P_5F_HighResidual/FA_ML_P_5F_TotalResidual)
 
 ##################################
 # Graph the factor loading matrices

@@ -113,8 +113,6 @@ PDA <- JobHiring
 
 ##  1.2 Data Quality Assessment
 |
-| Data quality assessment:
-|
 | **[A]** No missing observations noted for any variable.
 |
 | **[B]** No low variance observed for any variable with First.Second.Mode.Ratio>5.
@@ -756,9 +754,7 @@ qgraph(cor(DPA.Descriptors.Numeric),
 
 ## 1.5 Data Exploration
 |
-| Exploratory data analysis:
-|
-| **[A]** With the descriptors treated as ordered categorical variables, patterns among variables were observed as follows:
+| **[A]** With the descriptors treated as ordered categorical variables, distribution patterns were observed as follows:
 |      **[A.1]** As individual descriptors, <span style="color: #FF0000">ACAD</span>, <span style="color: #FF0000">APPR</span>, <span style="color: #FF0000">LIKE</span> and <span style="color: #FF0000">SCON</span> obtained higher proportions of likert scale scores of 6 and above
 |      **[A.2]** As individual descriptors, <span style="color: #FF0000">CFIT</span> and <span style="color: #FF0000">ORGN</span> obtained higher proportions of likert scale scores of 5 and below
 |

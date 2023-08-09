@@ -1,7 +1,7 @@
 ---
 title: 'Unsupervised Learning : Discovering Latent Variables in High-Dimensional Data using Exploratory Factor Analysis'
 author: "John Pauline Pineda"
-date: "August 10, 2023"
+date: "August 13, 2023"
 output: 
   html_document:
     toc: true
@@ -20,7 +20,7 @@ knitr::opts_chunk$set(echo = TRUE, fig.width=15, fig.height=10)
 |
 ##  1.1 Sample Data
 |
-| The [<mark style="background-color: #EEEEEE;color: #FF0000">**JobHiring**</mark>](https://real-statistics.com/multivariate-statistics/factor-analysis/factor-analysis-example/) dataset obtained from the [<mark style="background-color: #CCECFF">**Statistics By Jim**</mark>](https://statisticsbyjim.com/basics/factor-analysis/) website by [Jim Frost](https://statisticsbyjim.com/jim_frost/) was used for this illustrated example.   
+| The [<mark style="background-color: #EEEEEE;color: #FF0000">**JobHiring**</mark>](https://statisticsbyjim.com/basics/factor-analysis/) dataset obtained from the [<mark style="background-color: #CCECFF">**Statistics By Jim**</mark>](https://statisticsbyjim.com/) website by [Jim Frost](https://statisticsbyjim.com/jim_frost/) was used for this illustrated example.   
 |
 | Preliminary dataset assessment:
 |
@@ -52,6 +52,8 @@ knitr::opts_chunk$set(echo = TRUE, fig.width=15, fig.height=10)
 library(AppliedPredictiveModeling)
 library(performance)
 library(parameters)
+library(HH)
+library(tidyr)
 library(caret)
 library(psych)
 library(lattice)
@@ -77,7 +79,6 @@ library(nFactors)
 library(MBESS)
 library(DandEFA)
 library(EFAtools)
-
 
 ##################################
 # Loading source and
@@ -753,36 +754,19 @@ qgraph(cor(DPA.Descriptors.Numeric),
 
 </details>
 
-###  1.4.5 Factor Retention - Maximum Consensus
-|
-|
-|
-|
-
-<details><summary><mark style="background-color: #000000;color: #FFFFFF">**Code Chunk | Output**</mark></summary>
-
-```{r section_1.4.5, warning=FALSE, message=FALSE}
-##################################
-# Implementing various procedures for determining
-# factor retention based on
-# the maximum consensus between methods
-##################################
-(DPA_MethodAgreementProcedure <- parameters::n_factors(DPA.Descriptors.Numeric))
-
-as.data.frame(DPA_MethodAgreementProcedure)
-
-```
-
-</details>
-
 ## 1.5 Data Exploration
 |
 | Exploratory data analysis:
 |
-| **[A]** Critic and audience scores including their gaps from both sources were correlated.
-|      **[A.1]** High <span style="color: #FF0000">Tomatometer_Critic</span> = High <span style="color: #FF0000">IMDB_Critic</span>
-|      **[A.2]** High <span style="color: #FF0000">Tomatometer_Audience</span> = High <span style="color: #FF0000">IMDB_Audience</span>
-|      **[A.3]** Low <span style="color: #FF0000">Tomatometer_Critic_Audience_Gap</span> = Low <span style="color: #FF0000">IMDB_Critic_Audience_Gap</span>
+| **[A]** With the descriptors treated as ordered categorical variables, patterns among variables were observed as follows:
+|      **[A.1]** As individual descriptors, <span style="color: #FF0000">ACAD</span>, <span style="color: #FF0000">APPR</span>, <span style="color: #FF0000">LIKE</span> and <span style="color: #FF0000">SCON</span> obtained higher proportions of likert scale scores of 6 and above
+|      **[A.2]** As individual descriptors, <span style="color: #FF0000">CFIT</span> and <span style="color: #FF0000">ORGN</span> obtained higher proportions of likert scale scores of 5 and below
+|
+| **[B]** With the descriptors treated as numeric variables, all pairwise associations were positive with the highest Pearson correlation coefficient values noted for the following:
+|      **[B.1]** <span style="color: #FF0000">JFIT</span> and <span style="color: #FF0000">CFIT</span> = 0.88
+|      **[B.2]** <span style="color: #FF0000">COMM</span> and <span style="color: #FF0000">ORGN</span> = 0.86
+|      **[B.3]** <span style="color: #FF0000">RESM</span> and <span style="color: #FF0000">LETT</span> = 0.84
+
 |
 |
 
@@ -790,8 +774,73 @@ as.data.frame(DPA_MethodAgreementProcedure)
 
 ```{r section_1.5, warning=FALSE, message=FALSE}
 ##################################
-# Exploratory analysis
-# among quantitative descriptors
+# Percentage contribution
+# among descriptors when treated
+# as ordered categorical variables
+##################################
+DPA.Descriptors.Ordered <- gather(DPA.Descriptors.Numeric,
+                                   "ACAD",
+                                   "APPR",
+                                   "COMM",
+                                   "CFIT",
+                                   "EXPR",
+                                   "JFIT",
+                                   "LETT",
+                                   "LIKE",  
+                                   "ORGN",
+                                   "POTL",
+                                   "RESM",
+                                   "SCON",
+                                   key="Likert_Variable",
+                                   value="Likert_Score")
+
+
+DPA.Descriptors.Ordered$Likert_Variable <- as.factor(DPA.Descriptors.Ordered$Likert_Variable)
+DPA.Descriptors.Ordered$Likert_Score <- factor(DPA.Descriptors.Ordered$Likert_Score,                                               levels=c("1","2","3","4","5","6","7","8","9","10"))
+
+(DPA.Descriptors.OrderedTable <- table(DPA.Descriptors.Ordered$Likert_Variable,
+                                       DPA.Descriptors.Ordered$Likert_Score))
+
+DPA.Descriptors.OrderedTableProportion <- as.data.frame(rbind(prop.table(DPA.Descriptors.OrderedTable,1)))
+DPA.Descriptors.OrderedTableProportion$LikertVariables <- rownames(DPA.Descriptors.OrderedTableProportion)
+DPA.Descriptors.OrderedTableProportion
+
+likert(LikertVariables~., 
+       DPA.Descriptors.OrderedTableProportion, 
+       ReferenceZero=5.5, 
+       ylab = "Likert Variables", 
+       xlab = "Percentage Distribution of Likert Scale Scores",
+       main = list("Variables Characterizing Candidates During Job Hiring"), 
+       auto.key = list(columns = 10,
+                       reverse.rows = F))
+
+##################################
+# Pairwise association
+# between descriptors when treated
+# as quantitative variables
+##################################
+corrplot(cor(DPA.Descriptors.Numeric,
+             method = "pearson",
+             use="pairwise.complete.obs"),
+             method = "number",
+             type = "upper",
+             order = "original",
+             tl.col = "black",
+             tl.cex = 0.75,
+             tl.srt = 90,
+             sig.level = 0.05,
+             p.mat = DPA_CorrelationTest$p,
+             insig = "blank")
+
+##################################
+# Identifying the maximally correlated variables
+##################################
+DPA_MaximallyCorrelated <- findCorrelation(DPA_Correlation, cutoff = 0.80)
+colnames(DPA.Descriptors.Numeric)[DPA_MaximallyCorrelated]
+
+##################################
+# Formulating the pairwise scatterplots
+# among descriptors
 ##################################
 splom(~DPA.Descriptors.Numeric,
       pch = 16,
@@ -816,6 +865,17 @@ splom(~DPA.Descriptors.Numeric,
 <details><summary><mark style="background-color: #000000;color: #FFFFFF">**Code Chunk | Output**</mark></summary>
 
 ```{r section_1.6.1, warning=FALSE, message=FALSE}
+##################################
+# Implementing various procedures for determining
+# factor retention based on
+# the maximum consensus between methods
+##################################
+(FA_PA_V_MethodAgreementProcedure <- parameters::n_factors(DPA.Descriptors.Numeric,
+                                                           algorithm = "pa",
+                                                           rotation = "varimax"))
+
+as.data.frame(FA_PA_V_MethodAgreementProcedure)
+
 ##################################
 # Conducting exploratory factor analysis
 # using Principal Axes extraction
@@ -1084,6 +1144,17 @@ fa.diagram(FA_PA_V_5F,
 
 ```{r section_1.6.2, warning=FALSE, message=FALSE}
 ##################################
+# Implementing various procedures for determining
+# factor retention based on
+# the maximum consensus between methods
+##################################
+(FA_PA_P_MethodAgreementProcedure <- parameters::n_factors(DPA.Descriptors.Numeric,
+                                                           algorithm = "pa",
+                                                           rotation = "promax"))
+
+as.data.frame(FA_PA_P_MethodAgreementProcedure)
+
+##################################
 # Conducting exploratory factor analysis
 # using Principal Axes extraction
 # and Promax rotation
@@ -1351,6 +1422,17 @@ fa.diagram(FA_PA_P_5F,
 
 ```{r section_1.6.3, warning=FALSE, message=FALSE}
 ##################################
+# Implementing various procedures for determining
+# factor retention based on
+# the maximum consensus between methods
+##################################
+(FA_ML_V_MethodAgreementProcedure <- parameters::n_factors(DPA.Descriptors.Numeric,
+                                                           algorithm = "mle",
+                                                           rotation = "varimax"))
+
+as.data.frame(FA_ML_V_MethodAgreementProcedure)
+
+##################################
 # Conducting exploratory factor analysis
 # using Maximum Likelihood extraction
 # and Varimax rotation
@@ -1617,6 +1699,17 @@ fa.diagram(FA_ML_V_5F,
 <details><summary><mark style="background-color: #000000;color: #FFFFFF">**Code Chunk | Output**</mark></summary>
 
 ```{r section_1.6.4, warning=FALSE, message=FALSE}
+##################################
+# Implementing various procedures for determining
+# factor retention based on
+# the maximum consensus between methods
+##################################
+(FA_ML_P_MethodAgreementProcedure <- parameters::n_factors(DPA.Descriptors.Numeric,
+                                                           algorithm = "mle",
+                                                           rotation = "promax"))
+
+as.data.frame(FA_ML_P_MethodAgreementProcedure)
+
 ##################################
 # Conducting exploratory factor analysis
 # using Maximum Likelihood extraction
@@ -2097,6 +2190,21 @@ print(FA_Summary, row.names=FALSE)
 | **[Article]** [What Is Factor Analysis and How Does It Simplify Research Findings?](https://www.qualtrics.com/experience-management/research/factor-analysis/) by Qualtrics Team
 | **[Article]** [How Can I Perform A Factor Analysis With Categorical (Or Categorical And Continuous) Variables?](https://stats.oarc.ucla.edu/stata/faq/how-can-i-perform-a-factor-analysis-with-categorical-or-categorical-and-continuous-variables/) by UCLA Advanced Research Computing Team
 | **[Article]** [Factor Analysis on Ordinal Data Example in R (psych, homals)](https://alice86.github.io/2018/04/08/Factor-Analysis-on-Ordinal-Data-example-in-R-(psych,-homals)/) by Jiayu Wu
+| **[Article]** [Factor Analysis](https://handwiki.org/wiki/Factor%20analysis) by HandWiki Team
+| **[Article]** [On Likert Scales In R](https://jakec007.github.io/2021-06-23-R-likert/) by Jake Chanenson
+| **[Publication]** [General Intelligence Objectively Determined and Measured](https://psycnet.apa.org/record/1926-00296-001) by Charles Spearman (The American Journal of Psychology)
+| **[Publication]** [The Effect of Standardization on a Chi-Square Approximation in Factor Analysis](https://www.semanticscholar.org/paper/THE-EFFECT-OF-STANDARDIZATION-ON-A-%CF%872-APPROXIMATION-Bartlett/95d549d2c055360b34cc7d1fce739179c29e39bb) by Maurice Bartlett (Psychometrika)
+| **[Publication]** [A Second Generation Little Jiffy](https://link.springer.com/article/10.1007/BF02291817) by Henry Kaiser (Psychometrika)
+| **[Publication]** [Tests of Significance in Factor Analysis](https://www.semanticscholar.org/paper/TESTS-OF-SIGNIFICANCE-IN-FACTOR-ANALYSIS-Burt/25975f19d17ab2577845ec3d61f52806b28d8f28) by Maurice Bartlett (British Journal of Statistical Psychology)
+| **[Publication]** [Test of Linear Trend in Eigenvalues of a Covariance Matrix with Application to Data Analysis](https://psycnet.apa.org/record/1996-01978-006) by Peter Bentler and KeHai Yuan (British Journal of Mathematical and Statistical Psychology)
+| **[Publication]** [The Scree Test For The Number Of Factors](https://www.semanticscholar.org/paper/The-Scree-Test-For-The-Number-Of-Factors.-Cattell/379df72de684003963f11427c97490a8c2d2a593) by Raymond Cattell (Multivariate Behavioral Research)
+| **[Publication]** [Using Fit Statistic Differences to Determine the Optimal Number of Factors to Retain in an Exploratory Factor Analysis](https://journals.sagepub.com/doi/10.1177/0013164419865769) by William Finch (Educational and Psychological Measurement)
+| **[Publication]** [An Objective Counterpart to the Visual Scree Test for Factor Analysis: The Standard Error Scree](https://journals.sagepub.com/doi/10.1177/0013164496056003006) by Keith Zoski and Stephen Jurs (Educational and Psychological Measurement)
+| **[Publication]** [The Performance of Regression-Based Variations of the Visual Scree for Determining the Number of Common Factors](https://journals.sagepub.com/doi/10.1177/00164402062003001) by Fadia Nasser, Jeri Benson and Joseph Wisenbaker (Educational and Psychological Measurement)
+| **[Publication]** [Investigating the Performance of Exploratory Graph Analysis and Traditional Techniques to Identify the Number of Latent Factors: A Simulation and Tutorial](https://www.semanticscholar.org/paper/Investigating-the-performance-of-exploratory-graph-Golino-Shi/470c4e8aeebd08699fe9092463540a1b24b7e2e8) by Hudson Golino, Dingjing Shi, Alexander Christensen, Luis Garrido, Maria Nieto, Ritu Sadana, Jotheeswaran Thiyagarajan, Agustin Martinez-Molina (Psychological Methods)
+| **[Publication]** [Exploratory Graph Analysis: A New Approach for Estimating the Number of Dimensions in Psychological Research](https://www.semanticscholar.org/paper/Exploratory-graph-analysis%3A-A-new-approach-for-the-Golino-Epskamp/f44110bff4345eb228b27de8a0b8aec235edd478) by Hudson Galino and Sacha Epskamp (Plos One)
+| **[Publication]** [Very Simple Structure: An Alternative Procedure For Estimating The Optimal Number Of Interpretable Factors](https://www.tandfonline.com/doi/abs/10.1207/s15327906mbr1404_2) by William Revelle and Thomas Rocklin (Multivariate Behavioral Research )
+| **[Publication]** [Determining the Number of Components from the Matrix of Partial Correlations](https://psycnet.apa.org/record/1977-07293-001) by Wayne Velicer (Psychometrika)
 | **[Publication]** [Dandelion Plot: A Method for the Visualization of R-mode Exploratory Factor Analyses](https://link.springer.com/article/10.1007/s00180-014-0518-x) by Artur Manukyan, Erhan Cene, Ahmet Sedef and Ibrahim Demir (Computational Statistics) 
 | **[Course]** [Applied Data Mining and Statistical Learning](https://online.stat.psu.edu/stat508/) by Penn State Eberly College of Science
 |

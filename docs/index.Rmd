@@ -725,18 +725,18 @@ qgraph(cor(DPA.Descriptors.Numeric),
 | **[A]** The KMO measure of sampling adequacy was acceptable with a computed value of 0.798 for the complete model, indicating the suitability of the data for exploratory factor analysis. The estimated proportion of variance among all the observed variable was sufficiently adequate.
 |
 | **[B]**  The sampling adequacy for each variable in the model was acceptable with KMO values ranging from 0.676 to 0.883. Results indicated that each variable can be sufficiently predicted by other variables. 
-|      **[B.1]** <span style="color: #FF0000">ACAD</span> = 0.847
-|      **[B.2]** <span style="color: #FF0000">APPR</span> = 0.876
-|      **[B.3]** <span style="color: #FF0000">COMM</span> = 0.790
-|      **[B.4]** <span style="color: #FF0000">CFIT</span> = 0.809
-|      **[B.5]** <span style="color: #FF0000">EXPR</span> = 0.782
-|      **[B.6]** <span style="color: #FF0000">JFIT</span> = 0.827
-|      **[B.7]** <span style="color: #FF0000">LETT</span> = 0.676
-|      **[B.8]** <span style="color: #FF0000">LIKE</span> = 0.851
-|      **[B.9]** <span style="color: #FF0000">ORGN</span> = 0.740
-|      **[B.10]** <span style="color: #FF0000">POTL</span> = 0.883
-|      **[B.11]** <span style="color: #FF0000">RESM</span> = 0.712
-|      **[B.12]** <span style="color: #FF0000">SCON</span> = 0.777
+|      **[B.1]** <span style="color: #FF0000">ACAD</span> = 0.85
+|      **[B.2]** <span style="color: #FF0000">APPR</span> = 0.88
+|      **[B.3]** <span style="color: #FF0000">COMM</span> = 0.79
+|      **[B.4]** <span style="color: #FF0000">CFIT</span> = 0.81
+|      **[B.5]** <span style="color: #FF0000">EXPR</span> = 0.78
+|      **[B.6]** <span style="color: #FF0000">JFIT</span> = 0.83
+|      **[B.7]** <span style="color: #FF0000">LETT</span> = 0.68
+|      **[B.8]** <span style="color: #FF0000">LIKE</span> = 0.85
+|      **[B.9]** <span style="color: #FF0000">ORGN</span> = 0.74
+|      **[B.10]** <span style="color: #FF0000">POTL</span> = 0.88
+|      **[B.11]** <span style="color: #FF0000">RESM</span> = 0.71
+|      **[B.12]** <span style="color: #FF0000">SCON</span> = 0.78
 |
 |
 
@@ -854,7 +854,88 @@ splom(~DPA.Descriptors.Numeric,
 
 ###  1.6.1 Principal Axes Factor Extraction and Varimax Rotation (FA_PA_V)
 |
+| **[A]** Appplying **Principal Axes** factor extraction and **Varimax** rotation, an evaluation was conducted using a set of empirical guidelines to determine the optimal number of factors to be retained for exploratory factor analysis. It was determined that:
+|      **[A.1]** 4 factors would be sufficient for an optimal balance between comprehensiveness and parsimony. 
+|      **[A.2]** To ensure that both under-extraction and over-extraction are assessed, models with 3, 4 and 5 factors were sequentially evaluated for their interpretability and theoretical meaningfulness.
+|      **[A.3]** The choice of 4 factors was supported by maximum consensus (35.71%) from 5 (**Bentler**, **Beta**, **Parallel Analysis**, **Kaiser Criterion** and **Standardized Scree**) among 14 methods.
 |
+| **[B]** Results for the exploratory factor analysis using a **3-Factor Structure** were as follows:
+|      **[B.1]** Standardized Root Mean Square of the Residual = 0.07
+|      **[B.2]** Tucker-Lewis Fit Index = 0.62
+|      **[B.3]** Bayesian Information Criterion = -22.76
+|      **[B.4]** High Residual Rate = 0.27
+|      **[B.5]** Factor 1 was a latent variable with higher loading towards the following descriptors:
+|             **[B.5.1]** <span style="color: #FF0000">ORGN</span>: Loading = 0.88, Communality = 0.79
+|             **[B.5.2]** <span style="color: #FF0000">COMM</span>: Loading = 0.79, Communality = 0.69
+|             **[B.5.3]** <span style="color: #FF0000">LIKE</span>: Loading = 0.64, Communality = 0.54
+|             **[B.5.4]** <span style="color: #FF0000">APPR</span>: Loading = 0.60, Communality = 0.50
+|             **[B.5.5]** <span style="color: #FF0000">SCON</span>: Loading = 0.60, Communality = 0.51
+|             **[B.5.6]** <span style="color: #FF0000">CFIT</span>: Loading = 0.60, Communality = 0.61
+|             **[B.5.7]** Cronbach's Alpha = 0.88
+|      **[B.6]** Factor 2 was a latent variable with higher loading towards the following descriptors:
+|             **[B.6.1]** <span style="color: #FF0000">POTL</span>: Loading = 0.85, Communality = 0.87
+|             **[B.6.2]** <span style="color: #FF0000">EXPR</span>: Loading = 0.76, Communality = 0.69
+|             **[B.6.3]** <span style="color: #FF0000">ACAD</span>: Loading = 0.74, Communality = 0.65
+|             **[B.6.4]** <span style="color: #FF0000">JFIT</span>: Loading = 0.56, Communality = 0.64
+|             **[B.6.5]** Cronbach's Alpha = 0.88
+|      **[B.7]** Factor 3 was a latent variable with higher loading towards the following descriptors:
+|             **[B.7.1]** <span style="color: #FF0000">LETT</span>: Loading = 0.88, Communality = 0.86
+|             **[B.7.2]** <span style="color: #FF0000">RESM</span>: Loading = 0.81, Communality = 0.83
+|             **[B.7.3]** Cronbach's Alpha = 0.91
+|
+| **[C]** Results for the exploratory factor analysis using a **4-Factor Structure** were as follows:
+|      **[C.1]** Standardized Root Mean Square of the Residual = 0.04
+|      **[C.2]** Tucker-Lewis Fit Index = 0.73
+|      **[C.3]** Bayesian Information Criterion = -33.02
+|      **[C.4]** High Residual Rate = 0.15
+|      **[C.5]** Factor 1 was a latent variable with higher loading towards the following descriptors:
+|             **[C.5.1]** <span style="color: #FF0000">POTL</span>: Loading = 0.85, Communality = 0.89
+|             **[C.5.2]** <span style="color: #FF0000">EXPR</span>: Loading = 0.73, Communality = 0.68
+|             **[C.5.3]** <span style="color: #FF0000">ACAD</span>: Loading = 0.71, Communality = 0.64
+|             **[C.5.4]** <span style="color: #FF0000">JFIT</span>: Loading = 0.61, Communality = 0.73
+|             **[C.5.5]** Cronbach's Alpha = 0.88
+|      **[C.6]** Factor 2 was a latent variable with higher loading towards the following descriptors:
+|             **[C.6.1]** <span style="color: #FF0000">ORGN</span>: Loading = 0.84, Communality = 0.86
+|             **[C.6.2]** <span style="color: #FF0000">COMM</span>: Loading = 0.76, Communality = 0.73
+|             **[C.6.3]** <span style="color: #FF0000">CFIT</span>: Loading = 0.65, Communality = 0.76
+|             **[C.6.4]** Cronbach's Alpha = 0.87
+|      **[C.7]** Factor 3 was a latent variable with higher loading towards the following descriptors:
+|             **[C.7.1]** <span style="color: #FF0000">SCON</span>: Loading = 0.82, Communality = 0.79
+|             **[C.7.2]** <span style="color: #FF0000">APPR</span>: Loading = 0.70, Communality = 0.65
+|             **[C.7.3]** <span style="color: #FF0000">LIKE</span>: Loading = 0.69, Communality = 0.66
+|             **[C.7.4]** Cronbach's Alpha = 0.87
+|      **[C.8]** Factor 4 was a latent variable with higher loading towards the following descriptors:
+|             **[C.8.1]** <span style="color: #FF0000">LETT</span>: Loading = 0.88, Communality = 0.89
+|             **[C.8.2]** <span style="color: #FF0000">RESM</span>: Loading = 0.83, Communality = 0.88
+|             **[C.8.3]** Cronbach's Alpha = 0.91
+|
+| **[D]** Results for the exploratory factor analysis using a **5-Factor Structure** were as follows:
+|      **[D.1]** Standardized Root Mean Square of the Residual = 0.02
+|      **[D.2]** Tucker-Lewis Fit Index = 0.96
+|      **[D.3]** Bayesian Information Criterion = -43.43
+|      **[D.4]** High Residual Rate = 0.00
+|      **[D.5]** Factor 1 was a latent variable with higher loading towards the following descriptors:
+|             **[D.5.1]** <span style="color: #FF0000">ACAD</span>: Loading = 0.82, Communality = 0.79
+|             **[D.5.2]** <span style="color: #FF0000">POTL</span>: Loading = 0.78, Communality = 0.87
+|             **[D.5.3]** <span style="color: #FF0000">EXPR</span>: Loading = 0.70, Communality = 0.67
+|             **[C.5.4]** Cronbach's Alpha = 0.89
+|      **[D.6]** Factor 2 was a latent variable with higher loading towards the following descriptors:
+|             **[D.6.1]** <span style="color: #FF0000">SCON</span>: Loading = 0.86, Communality = 0.85
+|             **[D.6.2]** <span style="color: #FF0000">LIKE</span>: Loading = 0.72, Communality = 0.69
+|             **[D.6.3]** <span style="color: #FF0000">APPR</span>: Loading = 0.66, Communality = 0.64
+|             **[C.6.4]** Cronbach's Alpha = 0.87
+|      **[D.7]** Factor 3 was a latent variable with higher loading towards the following descriptors:
+|             **[D.7.1]** <span style="color: #FF0000">COMM</span>: Loading = 0.83, Communality = 0.86
+|             **[D.7.2]** <span style="color: #FF0000">ORGN</span>: Loading = 0.83, Communality = 0.89
+|             **[C.7.3]** Cronbach's Alpha = 0.92
+|      **[D.8]** Factor 4 was a latent variable with higher loading towards the following descriptors:
+|             **[D.8.1]** <span style="color: #FF0000">LETT</span>: Loading = 0.89, Communality = 0.89
+|             **[D.8.2]** <span style="color: #FF0000">RESM</span>: Loading = 0.82, Communality = 0.87
+|             **[C.8.3]** Cronbach's Alpha = 0.91
+|      **[D.9]** Factor 5 was a latent variable with higher loading towards the following descriptors:
+|             **[D.9.1]** <span style="color: #FF0000">JFIT</span>: Loading = 0.80, Communality = 0.93
+|             **[D.9.2]** <span style="color: #FF0000">CFIT</span>: Loading = 0.74, Communality = 0.86
+|             **[C.9.3]** Cronbach's Alpha = 0.94
 |
 |
 
@@ -1132,7 +1213,88 @@ fa.diagram(FA_PA_V_5F,
 
 ###  1.6.2 Principal Axes Factor Extraction and Promax Rotation (FA_PA_P)
 |
+| **[A]** Appplying **Principal Axes** factor extraction and **Promax** rotation, an evaluation was conducted using a set of empirical guidelines to determine the optimal number of factors to be retained for exploratory factor analysis. It was determined that:
+|      **[A.1]** 4 factors would be sufficient for an optimal balance between comprehensiveness and parsimony. 
+|      **[A.2]** To ensure that both under-extraction and over-extraction are assessed, models with 3, 4 and 5 factors were sequentially evaluated for their interpretability and theoretical meaningfulness.
+|      **[A.3]** The choice of 4 factors was supported by maximum consensus (35.71%) from 5 (**Bentler**, **Beta**, **Parallel Analysis**, **Kaiser Criterion** and **Standardized Scree**) among 14 methods.
 |
+| **[B]** Results for the exploratory factor analysis using a **3-Factor Structure** were as follows:
+|      **[B.1]** Standardized Root Mean Square of the Residual = 0.07
+|      **[B.2]** Tucker-Lewis Fit Index = 0.62
+|      **[B.3]** Bayesian Information Criterion = -22.76
+|      **[B.4]** High Residual Rate = 0.27
+|      **[B.5]** Factor 1 was a latent variable with higher loading towards the following descriptors:
+|             **[B.5.1]** <span style="color: #FF0000">ORGN</span>: Loading = 0.88, Communality = 0.79
+|             **[B.5.2]** <span style="color: #FF0000">COMM</span>: Loading = 0.79, Communality = 0.69
+|             **[B.5.3]** <span style="color: #FF0000">LIKE</span>: Loading = 0.64, Communality = 0.54
+|             **[B.5.4]** <span style="color: #FF0000">APPR</span>: Loading = 0.60, Communality = 0.50
+|             **[B.5.5]** <span style="color: #FF0000">SCON</span>: Loading = 0.60, Communality = 0.51
+|             **[B.5.6]** <span style="color: #FF0000">CFIT</span>: Loading = 0.60, Communality = 0.61
+|             **[B.5.7]** Cronbach's Alpha = 0.88
+|      **[B.6]** Factor 2 was a latent variable with higher loading towards the following descriptors:
+|             **[B.6.1]** <span style="color: #FF0000">POTL</span>: Loading = 0.85, Communality = 0.87
+|             **[B.6.2]** <span style="color: #FF0000">EXPR</span>: Loading = 0.76, Communality = 0.69
+|             **[B.6.3]** <span style="color: #FF0000">ACAD</span>: Loading = 0.74, Communality = 0.65
+|             **[B.6.4]** <span style="color: #FF0000">JFIT</span>: Loading = 0.56, Communality = 0.64
+|             **[B.6.5]** Cronbach's Alpha = 0.88
+|      **[B.7]** Factor 3 was a latent variable with higher loading towards the following descriptors:
+|             **[B.7.1]** <span style="color: #FF0000">LETT</span>: Loading = 0.88, Communality = 0.86
+|             **[B.7.2]** <span style="color: #FF0000">RESM</span>: Loading = 0.81, Communality = 0.83
+|             **[B.7.3]** Cronbach's Alpha = 0.91
+|
+| **[C]** Results for the exploratory factor analysis using a **4-Factor Structure** were as follows:
+|      **[C.1]** Standardized Root Mean Square of the Residual = 0.04
+|      **[C.2]** Tucker-Lewis Fit Index = 0.73
+|      **[C.3]** Bayesian Information Criterion = -33.02
+|      **[C.4]** High Residual Rate = 0.15
+|      **[C.5]** Factor 1 was a latent variable with higher loading towards the following descriptors:
+|             **[C.5.1]** <span style="color: #FF0000">POTL</span>: Loading = 0.85, Communality = 0.89
+|             **[C.5.2]** <span style="color: #FF0000">EXPR</span>: Loading = 0.73, Communality = 0.68
+|             **[C.5.3]** <span style="color: #FF0000">ACAD</span>: Loading = 0.71, Communality = 0.64
+|             **[C.5.4]** <span style="color: #FF0000">JFIT</span>: Loading = 0.61, Communality = 0.73
+|             **[C.5.5]** Cronbach's Alpha = 0.88
+|      **[C.6]** Factor 2 was a latent variable with higher loading towards the following descriptors:
+|             **[C.6.1]** <span style="color: #FF0000">ORGN</span>: Loading = 0.84, Communality = 0.86
+|             **[C.6.2]** <span style="color: #FF0000">COMM</span>: Loading = 0.76, Communality = 0.73
+|             **[C.6.3]** <span style="color: #FF0000">CFIT</span>: Loading = 0.65, Communality = 0.76
+|             **[C.6.4]** Cronbach's Alpha = 0.87
+|      **[C.7]** Factor 3 was a latent variable with higher loading towards the following descriptors:
+|             **[C.7.1]** <span style="color: #FF0000">SCON</span>: Loading = 0.82, Communality = 0.79
+|             **[C.7.2]** <span style="color: #FF0000">APPR</span>: Loading = 0.70, Communality = 0.65
+|             **[C.7.3]** <span style="color: #FF0000">LIKE</span>: Loading = 0.69, Communality = 0.66
+|             **[C.7.4]** Cronbach's Alpha = 0.87
+|      **[C.8]** Factor 4 was a latent variable with higher loading towards the following descriptors:
+|             **[C.8.1]** <span style="color: #FF0000">LETT</span>: Loading = 0.88, Communality = 0.89
+|             **[C.8.2]** <span style="color: #FF0000">RESM</span>: Loading = 0.83, Communality = 0.88
+|             **[C.8.3]** Cronbach's Alpha = 0.91
+|
+| **[D]** Results for the exploratory factor analysis using a **5-Factor Structure** were as follows:
+|      **[D.1]** Standardized Root Mean Square of the Residual = 0.02
+|      **[D.2]** Tucker-Lewis Fit Index = 0.96
+|      **[D.3]** Bayesian Information Criterion = -43.43
+|      **[D.4]** High Residual Rate = 0.00
+|      **[D.5]** Factor 1 was a latent variable with higher loading towards the following descriptors:
+|             **[D.5.1]** <span style="color: #FF0000">ACAD</span>: Loading = 0.82, Communality = 0.79
+|             **[D.5.2]** <span style="color: #FF0000">POTL</span>: Loading = 0.78, Communality = 0.87
+|             **[D.5.3]** <span style="color: #FF0000">EXPR</span>: Loading = 0.70, Communality = 0.67
+|             **[C.5.4]** Cronbach's Alpha = 0.89
+|      **[D.6]** Factor 2 was a latent variable with higher loading towards the following descriptors:
+|             **[D.6.1]** <span style="color: #FF0000">SCON</span>: Loading = 0.86, Communality = 0.85
+|             **[D.6.2]** <span style="color: #FF0000">LIKE</span>: Loading = 0.72, Communality = 0.69
+|             **[D.6.3]** <span style="color: #FF0000">APPR</span>: Loading = 0.66, Communality = 0.64
+|             **[C.6.4]** Cronbach's Alpha = 0.87
+|      **[D.7]** Factor 3 was a latent variable with higher loading towards the following descriptors:
+|             **[D.7.1]** <span style="color: #FF0000">COMM</span>: Loading = 0.83, Communality = 0.86
+|             **[D.7.2]** <span style="color: #FF0000">ORGN</span>: Loading = 0.83, Communality = 0.89
+|             **[C.7.3]** Cronbach's Alpha = 0.92
+|      **[D.8]** Factor 4 was a latent variable with higher loading towards the following descriptors:
+|             **[D.8.1]** <span style="color: #FF0000">LETT</span>: Loading = 0.89, Communality = 0.89
+|             **[D.8.2]** <span style="color: #FF0000">RESM</span>: Loading = 0.82, Communality = 0.87
+|             **[C.8.3]** Cronbach's Alpha = 0.91
+|      **[D.9]** Factor 5 was a latent variable with higher loading towards the following descriptors:
+|             **[D.9.1]** <span style="color: #FF0000">JFIT</span>: Loading = 0.80, Communality = 0.93
+|             **[D.9.2]** <span style="color: #FF0000">CFIT</span>: Loading = 0.74, Communality = 0.86
+|             **[C.9.3]** Cronbach's Alpha = 0.94
 |
 |
 
@@ -1410,7 +1572,88 @@ fa.diagram(FA_PA_P_5F,
 
 ###  1.6.3 Maximum Likelihood Factor Extraction and Varimax Rotation (FA_ML_V)
 |
+| **[A]** Appplying **Maximum Likelihood** factor extraction and **Varimax** rotation, an evaluation was conducted using a set of empirical guidelines to determine the optimal number of factors to be retained for exploratory factor analysis. It was determined that:
+|      **[A.1]** 4 factors would be sufficient for an optimal balance between comprehensiveness and parsimony. 
+|      **[A.2]** To ensure that both under-extraction and over-extraction are assessed, models with 3, 4 and 5 factors were sequentially evaluated for their interpretability and theoretical meaningfulness.
+|      **[A.3]** The choice of 4 factors was supported by maximum consensus (26.32%) from 5 (**Bentler**, **Beta**, **Parallel Analysis**, **Kaiser Criterion** and **Standardized Scree**) among 19 methods.
 |
+| **[B]** Results for the exploratory factor analysis using a **3-Factor Structure** were as follows:
+|      **[B.1]** Standardized Root Mean Square of the Residual = 0.08
+|      **[B.2]** Tucker-Lewis Fit Index = 0.69
+|      **[B.3]** Bayesian Information Criterion = -35.60
+|      **[B.4]** High Residual Rate = 0.24
+|      **[B.5]** Factor 1 was a latent variable with higher loading towards the following descriptors:
+|             **[B.5.1]** <span style="color: #FF0000">POTL</span>: Loading = 0.90, Communality = 0.92
+|             **[B.5.2]** <span style="color: #FF0000">ACAD</span>: Loading = 0.76, Communality = 0.67
+|             **[B.5.3]** <span style="color: #FF0000">EXPR</span>: Loading = 0.71, Communality = 0.61
+|             **[B.5.4]** <span style="color: #FF0000">JFIT</span>: Loading = 0.62, Communality = 0.62
+|             **[B.5.5]** Cronbach's Alpha = 0.88
+|      **[B.6]** Factor 2 was a latent variable with higher loading towards the following descriptors:
+|             **[B.6.1]** <span style="color: #FF0000">ORGN</span>: Loading = 0.96, Communality = 0.96
+|             **[B.6.2]** <span style="color: #FF0000">COMM</span>: Loading = 0.85, Communality = 0.80
+|             **[B.6.3]** <span style="color: #FF0000">CFIT</span>: Loading = 0.56, Communality = 0.62
+|             **[B.6.4]** <span style="color: #FF0000">LIKE</span>: Loading = 0.48, Communality = 0.44
+|             **[B.6.5]** <span style="color: #FF0000">APPR</span>: Loading = 0.48, Communality = 0.46
+|             **[B.6.6]** <span style="color: #FF0000">SCON</span>: Loading = 0.43, Communality = 0.51
+|             **[B.6.7]** Cronbach's Alpha = 0.88
+|      **[B.7]** Factor 3 was a latent variable with higher loading towards the following descriptors:
+|             **[B.7.1]** <span style="color: #FF0000">RESM</span>: Loading = 0.93, Communality = 0.83
+|             **[B.7.2]** <span style="color: #FF0000">LETT</span>: Loading = 0.78, Communality = 0.71
+|             **[B.7.3]** Cronbach's Alpha = 0.91
+|
+| **[C]** Results for the exploratory factor analysis using a **4-Factor Structure** were as follows:
+|      **[C.1]** Standardized Root Mean Square of the Residual = 0.06
+|      **[C.2]** Tucker-Lewis Fit Index = 0.76
+|      **[C.3]** Bayesian Information Criterion = -37.51
+|      **[C.4]** High Residual Rate = 0.15
+|      **[C.5]** Factor 1 was a latent variable with higher loading towards the following descriptors:
+|             **[C.5.1]** <span style="color: #FF0000">JFIT</span>: Loading = 0.87, Communality = 0.91
+|             **[C.5.2]** <span style="color: #FF0000">CFIT</span>: Loading = 0.78, Communality = 0.85
+|             **[C.5.3]** <span style="color: #FF0000">POTL</span>: Loading = 0.66, Communality = 0.65
+|             **[C.5.4]** <span style="color: #FF0000">EXPR</span>: Loading = 0.50, Communality = 0.46
+|             **[C.5.5]** <span style="color: #FF0000">ACAD</span>: Loading = 0.49, Communality = 0.45
+|             **[C.5.6]** Cronbach's Alpha = 0.90
+|      **[C.6]** Factor 2 was a latent variable with higher loading towards the following descriptors:
+|             **[C.6.1]** <span style="color: #FF0000">SCON</span>: Loading = 0.81, Communality = 0.78
+|             **[C.6.2]** <span style="color: #FF0000">APPR</span>: Loading = 0.72, Communality = 0.68
+|             **[C.6.3]** <span style="color: #FF0000">LIKE</span>: Loading = 0.67, Communality = 0.65
+|             **[C.6.4]** Cronbach's Alpha = 0.87
+|      **[C.7]** Factor 3 was a latent variable with higher loading towards the following descriptors:
+|             **[C.7.1]** <span style="color: #FF0000">ORGN</span>: Loading = 0.91, Communality = 0.97
+|             **[C.7.2]** <span style="color: #FF0000">COMM</span>: Loading = 0.79, Communality = 0.79
+|             **[C.7.3]** Cronbach's Alpha = 0.92
+|      **[C.8]** Factor 4 was a latent variable with higher loading towards the following descriptors:
+|             **[C.8.1]** <span style="color: #FF0000">RESM</span>: Loading = 0.91, Communality = 1.00
+|             **[C.8.2]** <span style="color: #FF0000">LETT</span>: Loading = 0.81, Communality = 0.78
+|             **[C.8.3]** Cronbach's Alpha = 0.91
+|
+| **[D]** Results for the exploratory factor analysis using a **5-Factor Structure** were as follows:
+|      **[D.1]** Standardized Root Mean Square of the Residual = 0.02
+|      **[D.2]** Tucker-Lewis Fit Index = 0.99
+|      **[D.3]** Bayesian Information Criterion = -45.32
+|      **[D.4]** High Residual Rate = 0.03
+|      **[D.5]** Factor 1 was a latent variable with higher loading towards the following descriptors:
+|             **[D.5.1]** <span style="color: #FF0000">ACAD</span>: Loading = 0.81, Communality = 0.78
+|             **[D.5.2]** <span style="color: #FF0000">POTL</span>: Loading = 0.79, Communality = 0.87
+|             **[D.5.3]** <span style="color: #FF0000">EXPR</span>: Loading = 0.69, Communality = 0.64
+|             **[C.5.4]** Cronbach's Alpha = 0.89
+|      **[D.6]** Factor 2 was a latent variable with higher loading towards the following descriptors:
+|             **[D.6.1]** <span style="color: #FF0000">SCON</span>: Loading = 0.87, Communality = 0.87
+|             **[D.6.2]** <span style="color: #FF0000">LIKE</span>: Loading = 0.71, Communality = 0.68
+|             **[D.6.3]** <span style="color: #FF0000">APPR</span>: Loading = 0.65, Communality = 0.65
+|             **[C.6.4]** Cronbach's Alpha = 0.87
+|      **[D.7]** Factor 3 was a latent variable with higher loading towards the following descriptors:
+|             **[D.7.1]** <span style="color: #FF0000">ORGN</span>: Loading = 0.89, Communality = 0.96
+|             **[D.7.2]** <span style="color: #FF0000">COMM</span>: Loading = 0.79, Communality = 0.80
+|             **[C.7.3]** Cronbach's Alpha = 0.92
+|      **[D.8]** Factor 4 was a latent variable with higher loading towards the following descriptors:
+|             **[D.8.1]** <span style="color: #FF0000">RESM</span>: Loading = 0.90, Communality = 1.00
+|             **[D.8.2]** <span style="color: #FF0000">LETT</span>: Loading = 0.81, Communality = 0.77
+|             **[C.8.3]** Cronbach's Alpha = 0.91
+|      **[D.9]** Factor 5 was a latent variable with higher loading towards the following descriptors:
+|             **[D.9.1]** <span style="color: #FF0000">JFIT</span>: Loading = 0.81, Communality = 0.95
+|             **[D.9.2]** <span style="color: #FF0000">CFIT</span>: Loading = 0.72, Communality = 0.85
+|             **[C.9.3]** Cronbach's Alpha = 0.94
 |
 |
 

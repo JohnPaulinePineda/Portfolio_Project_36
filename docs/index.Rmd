@@ -2297,17 +2297,17 @@ fa.diagram(FA_ML_P_5F,
 
 ##  1.7 Algorithm Comparison Summary
 |
-| **[A]** Among candidates, optimal results were obtained for the exploratory factor analysis with **5-Factor Structure** by demonstrating excellent model fit metrics. In addition, the latent variables obtained were contextually meaningful as individual factors in the analysis.
+| **[A]** Among candidates, optimal results were obtained for the exploratory factor analysis model with **5-Factor Structure** by demonstrating excellent model fit metrics. In addition, the latent variables obtained were contextually meaningful as individual factors in the analysis.
 |      **[A.1]** Lowest Standardized Root Mean Square of the Residual
 |      **[A.2]** Highest Tucker-Lewis Fit Index
 |      **[A.3]** Lowest Bayesian Information Criterion
 |      **[A.4]** Lowest High Residual Rate
 |
-| **[B]** Among candidates, minimal errors were obtained for the exploratory factor analysis with **Principal Axes** factor extraction by demonstrating the:
+| **[B]** Among candidates, minimal errors were obtained for the exploratory factor analysis model with **Principal Axes** factor extraction by demonstrating the:
 |      **[A.1]** Lowest Standardized Root Mean Square of the Residual
 |      **[A.2]** Lowest High Residual Rate
 |
-| **[C]** Among candidates, the exploratory factor analysis with **Promax** rotation was more appropriate due to the presence of considerable correlation among the extract factors.
+| **[C]** Among candidates, the exploratory factor analysis model with **Promax** rotation was more appropriate due to the presence of considerable correlation among the extracted factors.
 |
 | **[D]** The selected exploratory factor analysis model demonstrated highly consistent factors described as follows: 
 |      **[D.1]** Factor 1 corresponds to the academic and professional background of the candidate.

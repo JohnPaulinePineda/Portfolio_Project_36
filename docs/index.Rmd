@@ -703,7 +703,9 @@ qgraph(cor(DPA.Descriptors.Numeric),
 
 ###  1.4.3 Correlation Matrix Assessment - Bartlett’s Test of Sphericity
 |
-| **[A]** The computed p-value from the Bartlett’s Test of Sphericity was statistically significant (<0.00001), rejecting the null hypothesis that the correlation matrix is an identity matrix (ones on the diagonal and zeros on the off-diagonal). Results indicated that the correlation matrix is appropriate for exploratory factor analysis. 
+| [Bartlett’s Test of Sphericity](https://www.semanticscholar.org/paper/THE-EFFECT-OF-STANDARDIZATION-ON-A-%CF%872-APPROXIMATION-Bartlett/95d549d2c055360b34cc7d1fce739179c29e39bb) evaluates whether the correlations between variables in a data set are significant enough to support the assumption that underlying factors exist and can be extracted. The test calculates a Chi-Square statistic based on the differences between the observed correlation matrix and an identity matrix. The larger the Chi-Square value, there is more evidence against the null hypothesis stating that the correlation matrix is an identity matrix which indicates that the variables are uncorrelated and do not have any underlying structure.
+|
+| **[A]** The computed p-value from the Bartlett’s Test of Sphericity was statistically significant (<0.00001), rejecting the null hypothesis that the correlation matrix is an identity matrix (ones on the diagonal and zeros on the off-diagonal). Results indicated that there is enough evidence to support the existence of underlying factors, suggesting that the correlation matrix is appropriate for exploratory factor analysis. 
 |
 |
 
@@ -721,6 +723,8 @@ qgraph(cor(DPA.Descriptors.Numeric),
 </details>
 
 ###  1.4.4 Correlation Matrix Assessment - Kaiser-Meyer-Olkin Factor Adequacy
+|
+| [Kaiser-Meyer-Olkin Factor Adequacy](https://link.springer.com/article/10.1007/BF02291817) evaluates whether the observed variables are suitable for exploratory factor analysis based on their common variance and the potential for extracting meaningful factors. The criterion is computed by examining the ratio of the sum of squared correlations between variables to the sum of squared partial correlations. A KMO value closer to 1 suggests that the variables have high shared variance and are suitable to proceed with the analysis.
 |
 | **[A]** The KMO measure of sampling adequacy was acceptable with a computed value of 0.798 for the complete model, indicating the suitability of the data for exploratory factor analysis. The estimated proportion of variance among all the observed variable was sufficiently adequate.
 |

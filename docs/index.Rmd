@@ -17,7 +17,7 @@ knitr::opts_chunk$set(echo = TRUE, fig.width=15, fig.height=10)
 
 # **1. Table of Contents**
 |
-| This project explores different variations of the exploratory factor analysis method for discovering latent patterns in correlated high-dimensional data using various helpful packages in <mark style="background-color: #CCECFF">**R**</mark>. Methods applied in the analysis to estimate and identify potential underlying structures from observed variables included **Principal Axes Factor Extraction** and **Maximum Likelhood Factor Extraction**. The approaches used to simplify the derived factor structures to achieve a more interpretable pattern of factor loadings included **Varimax Rotation** and **Promax Rotation**. Combinations of the factor extraction and rotation methods were separately applied on the original dataset across different numbers of factors, with the model fit evaluated using the standardized root mean square of the residual, Tucker-Lewis fit index, Bayesian information criterion and high residual rate. The extracted and rotated factors were visualized using the factor loading and dandelion plots.
+| This project explores different variations of the exploratory factor analysis method for discovering latent patterns in adequately correlated high-dimensional data using various helpful packages in <mark style="background-color: #CCECFF">**R**</mark>. Methods applied in the analysis to estimate and identify potential underlying structures from observed variables included **Principal Axes Factor Extraction** and **Maximum Likelihood Factor Extraction**. The approaches used to simplify the derived factor structures to achieve a more interpretable pattern of factor loadings included **Varimax Rotation** and **Promax Rotation**. Combinations of the factor extraction and rotation methods were separately applied on the original dataset across different numbers of factors, with the model fit evaluated using the standardized root mean square of the residual, Tucker-Lewis fit index, Bayesian information criterion and high residual rate. The extracted and rotated factors were visualized using the factor loading and dandelion plots.
 |
 | Exploratory factor analysis is a form of unsupervised learning method aimed at uncovering underlying patterns or relationships among a set of observed variables by exploring the structure of the data and identifying latent factors that explain the observed correlations; and at reducing the complexity of the data by grouping related variables together under these latent factors. The algorithms applied in this study (mostly contained in the <mark style="background-color: #CCECFF">**psych**</mark>, <mark style="background-color: #CCECFF">**nFactors**</mark> and <mark style="background-color: #CCECFF">**parameters**</mark> packages) attempt to extract a smaller number of factors that influence the correlations among variables and apply factor rotation methods to transform the initially extracted factors into a more interpretable form.
 |
@@ -2572,6 +2572,7 @@ dandelion(FA_PA_P_5F_FactorLoading,
 | **[R Package]** [rpart](https://mran.microsoft.com/web/packages/rpart/rpart.pdf) by Terry Therneau and Beth Atkinson
 | **[R Package]** [lattice](https://cran.r-project.org/web/packages/lattice/lattice.pdf) by  Deepayan Sarkar
 | **[R Package]** [dplyr](https://cran.r-project.org/web/packages/dplyr/index.html/) by Hadley Wickham
+| **[R Package]** [tidyr](https://cran.r-project.org/web/packages/tidyr/tidyr.pdf) by Hadley Wickham
 | **[R Package]** [moments](https://cran.r-project.org/web/packages/moments/index.html) by Lukasz Komsta and Frederick
 | **[R Package]** [skimr](https://cran.r-project.org/web/packages/skimr/skimr.pdf) by  Elin Waring
 | **[R Package]** [RANN](https://cran.r-project.org/web/packages/RANN/RANN.pdf) by  Sunil Arya, David Mount, Samuel Kemp and Gregory Jefferis
@@ -2595,6 +2596,7 @@ dandelion(FA_PA_P_5F_FactorLoading,
 | **[R Package]** [EFAtools](https://cran.r-project.org/web/packages/EFAtools/EFAtools.pdf) by Markus Steiner and Silvia Grieder
 | **[R Package]** [parameters](https://cran.r-project.org/web/packages/parameters/parameters.pdf) by Daniel Ludecke
 | **[R Package]** [performance](https://cran.r-project.org/web/packages/performance/performance.pdf) by Daniel Ludecke
+| **[R Package]** [HH](https://cran.r-project.org/web/packages/HH/HH.pdf) by Richard Heiberger
 | **[Article]** [6 Dimensionality Reduction Techniques in R (with Examples)](https://cmdlinetips.com/2022/07/dimensionality-reduction-techniques-in-r/) by CMDLineTips Team
 | **[Article]** [6 Dimensionality Reduction Algorithms With Python](https://machinelearningmastery.com/dimensionality-reduction-algorithms-with-python/) by Jason Brownlee
 | **[Article]** [Introduction to Dimensionality Reduction for Machine Learning](https://machinelearningmastery.com/dimensionality-reduction-for-machine-learning/) by Jason Brownlee

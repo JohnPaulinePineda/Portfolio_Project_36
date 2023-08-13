@@ -529,7 +529,7 @@ if (DPA_HighlyCorrelatedCount > 0) {
                " numeric variable(s)."))
 
   for (j in 1:DPA_HighlyCorrelatedForRemoval) {
-  DPA_HighlyCorrelatedRemovedVariable <- colnames(DPA.Predictors.Numeric)[DPA_HighlyCorrelated[j]]
+  DPA_HighlyCorrelatedRemovedVariable <- colnames(DPA.Descriptors.Numeric)[DPA_HighlyCorrelated[j]]
   print(paste0("Variable ",
                j,
                " for removal: ",
@@ -577,7 +577,7 @@ if (DPA_LinearlyDependentCount == 0) {
                " subset(s) of numeric variable(s)."))
   
   for (i in 1:DPA_LinearlyDependentCount) {
-    DPA_LinearlyDependentSubset <- colnames(DPA.Predictors.Numeric)[DPA_LinearlyDependent$linearCombos[[i]]]
+    DPA_LinearlyDependentSubset <- colnames(DPA.Descriptors.Numeric)[DPA_LinearlyDependent$linearCombos[[i]]]
     print(paste0("Linear dependent variable(s) for subset ",
                  i,
                  " include: ",
@@ -591,7 +591,7 @@ if (DPA_LinearlyDependentCount == 0) {
 ##################################
 
 if (DPA_LinearlyDependentCount > 0) {
-  DPA_LinearlyDependent <- findLinearCombos(DPA.Predictors.Numeric)
+  DPA_LinearlyDependent <- findLinearCombos(DPA.Descriptors.Numeric)
   
   DPA_LinearlyDependentForRemoval <- length(DPA_LinearlyDependent$remove)
   
@@ -600,7 +600,7 @@ if (DPA_LinearlyDependentCount > 0) {
                " numeric variable(s)."))
   
   for (j in 1:DPA_LinearlyDependentForRemoval) {
-  DPA_LinearlyDependentRemovedVariable <- colnames(DPA.Predictors.Numeric)[DPA_LinearlyDependent$remove[j]]
+  DPA_LinearlyDependentRemovedVariable <- colnames(DPA.Descriptors.Numeric)[DPA_LinearlyDependent$remove[j]]
   print(paste0("Variable ",
                j,
                " for removal: ",

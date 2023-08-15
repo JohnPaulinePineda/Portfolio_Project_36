@@ -2556,7 +2556,7 @@ dandelion(FA_PA_P_5F_FactorLoading,
 |
 | **[Book]** [Using Multivariate Analysis](https://www.pearson.com/en-us/subject-catalog/p/using-multivariate-statistics/P200000003097/9780137526543) by Barbara Tabachnick and Linda Fidell
 | **[Book]** [A Step-by-Step Guide to Exploratory Factor Analysis with R and RStudio](https://www.taylorfrancis.com/books/mono/10.4324/9781003120001/step-step-guide-exploratory-factor-analysis-rstudio-marley-watkins) by Marley Watkins
-| **[Book]** [A Step-by-Step Guide to Exploratory Factor Analysis with R and RStudio](https://www.taylorfrancis.com/books/mono/10.4324/9781003120001/step-step-guide-exploratory-factor-analysis-rstudio-marley-watkins) by Marley Watkins
+| **[Book]** [Just Enough R](https://benwhalley.github.io/just-enough-r/) by Ben Whalley
 | **[Book]** [Multiple Factor Analysis by Example Using R](https://www.oreilly.com/library/view/multiple-factor-analysis/9781498786690/) by Jerome Pages
 | **[Book]** [Nonlinear Principal Component Analysis and Its Applications](https://link.springer.com/book/10.1007/978-981-10-0159-8#toc) by Yuichi Mori, Masahiro Kuroda and Naomichi Makino
 | **[Book]** [Applied Predictive Modeling](http://appliedpredictivemodeling.com/) by Max Kuhn and Kjell Johnson

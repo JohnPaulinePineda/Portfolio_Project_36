@@ -17,7 +17,7 @@ knitr::opts_chunk$set(echo = TRUE, fig.width=15, fig.height=10)
 
 # **1. Table of Contents**
 |
-| This project explores different variations of the exploratory factor analysis method for discovering latent patterns in adequately correlated high-dimensional data using various helpful packages in <mark style="background-color: #CCECFF">**R**</mark>. Methods applied in the analysis to estimate and identify potential underlying structures from observed variables included **Principal Axes Factor Extraction** and **Maximum Likelihood Factor Extraction**. The approaches used to simplify the derived factor structures to achieve a more interpretable pattern of factor loadings included **Varimax Rotation** and **Promax Rotation**. Combinations of the factor extraction and rotation methods were separately applied on the original dataset across different numbers of factors, with the model fit evaluated using the standardized root mean square of the residual, Tucker-Lewis fit index, Bayesian information criterion and high residual rate. The extracted and rotated factors were visualized using the factor loading and dandelion plots.
+| This project explores different variations of the exploratory factor analysis method for discovering latent patterns in adequately correlated high-dimensional data using various helpful packages in <mark style="background-color: #CCECFF">**R**</mark>. Methods applied in the analysis to estimate and identify potential underlying structures from observed variables included **Principal Axes Factor Extraction** and **Maximum Likelihood Factor Extraction**. The approaches used to simplify the derived factor structures to achieve a more interpretable pattern of factor loadings included **Varimax Rotation** and **Promax Rotation**. Combinations of the factor extraction and rotation methods were separately applied on the original dataset across different numbers of factors, with the model fit evaluated using the standardized root mean square of the residual, Tucker-Lewis fit index, Bayesian information criterion and high residual rate. The extracted and rotated factors were visualized using the factor loading and dandelion plots. All results were consolidated in a [<span style="color: #FF0000">**Summary**</span>](#summary) presented at the end of the document.
 |
 | Exploratory factor analysis is a form of unsupervised learning method aimed at uncovering underlying patterns or relationships among a set of observed variables by exploring the structure of the data and identifying latent factors that explain the observed correlations; and at reducing the complexity of the data by grouping related variables together under these latent factors. The algorithms applied in this study (mostly contained in the <mark style="background-color: #CCECFF">**psych**</mark>, <mark style="background-color: #CCECFF">**nFactors**</mark> and <mark style="background-color: #CCECFF">**parameters**</mark> packages) attempt to extract a smaller number of factors that influence the correlations among variables and apply factor rotation methods to transform the initially extracted factors into a more interpretable form.
 |
@@ -2322,7 +2322,7 @@ fa.diagram(FA_ML_P_5F,
 </details>
 
 
-##  1.7 Algorithm Comparison Summary
+##  1.7 Consolidated Findings
 |
 | **[A]** Among candidates, optimal results were obtained for the exploratory factor analysis model with **5-Factor Structure** by demonstrating excellent model fit metrics. In addition, the latent variables obtained were contextually meaningful as individual factors in the analysis.
 |      **[A.1]** Lowest Standardized Root Mean Square of the Residual
@@ -2552,7 +2552,11 @@ dandelion(FA_PA_P_5F_FactorLoading,
 </details>
 
 |
-# **2. References**
+# **2. Summary** <a name="summary"></a>
+|
+| ![](D:/Github_Codes/ProjectPortfolio/Portfolio_Project_36/docs/Project36_Summary.png)
+|
+# **3. References**
 |
 | **[Book]** [Using Multivariate Analysis](https://www.pearson.com/en-us/subject-catalog/p/using-multivariate-statistics/P200000003097/9780137526543) by Barbara Tabachnick and Linda Fidell
 | **[Book]** [A Step-by-Step Guide to Exploratory Factor Analysis with R and RStudio](https://www.taylorfrancis.com/books/mono/10.4324/9781003120001/step-step-guide-exploratory-factor-analysis-rstudio-marley-watkins) by Marley Watkins

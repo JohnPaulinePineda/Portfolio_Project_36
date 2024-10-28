@@ -1,6 +1,6 @@
 ---
 title: 'Unsupervised Learning : Discovering Latent Variables in High-Dimensional Data using Exploratory Factor Analysis'
-author: "John Pauline Pineda"
+author: "<b><a href='https://github.com/JohnPaulinePineda'>John Pauline Pineda</a></b>"
 date: "August 13, 2023"
 output: 
   html_document:
@@ -67,7 +67,7 @@ library(RANN)
 library(pls)
 library(corrplot)
 library(lares)
-library(DMwR)
+library(DMwR2)
 library(gridExtra)
 library(rattle)
 library(RColorBrewer)
@@ -84,12 +84,17 @@ library(DandEFA)
 library(EFAtools)
 
 ##################################
+# Defining file paths
+##################################
+DATASETS_PATH <- file.path("datasets")
+
+##################################
 # Loading source and
 # formulating the analysis set
 ##################################
-JobHiring <- read.csv("JobHiring.csv",
-                   na.strings=c("NA","NaN"," ",""),
-                   stringsAsFactors = FALSE)
+JobHiring <- read.csv(file.path("..", DATASETS_PATH, "JobHiring.csv"),
+                      na.strings=c("NA","NaN"," ",""),
+                      stringsAsFactors = FALSE)
 JobHiring <- as.data.frame(JobHiring)
 
 ##################################
@@ -818,8 +823,9 @@ likert(LikertVariables~.,
        ylab = "Likert Variables", 
        xlab = "Percentage Distribution of Likert Scale Scores",
        main = list("Variables Characterizing Candidates During Job Hiring"), 
-       auto.key = list(columns = 10,
-                       reverse.rows = F))
+       auto.key = list(columns=10, 
+                       space="top",
+                       reverse.rows=F))
 
 ##################################
 # Pairwise association
@@ -853,7 +859,8 @@ splom(~DPA.Descriptors.Numeric,
       pch = 16,
       cex = 1,
       alpha = 0.45,
-      auto.key = list(points = TRUE, space = "right"),
+      auto.key = list(points=TRUE,
+                      space="top"),
       main = "Exploratory Analysis Between Descriptors",
       xlab = "Scatterplot Matrix of Descriptors")
 
@@ -2472,7 +2479,7 @@ print(FA_Summary, row.names=FALSE)
                      main = "Algorithm Comparison : Standardized Root Mean Square of the Residual",
                      ylab = "Algorithm",
                      xlab = "RMSR",
-                     auto.key = list(adj = 1),
+                     auto.key = list(adj=1),
                      type=c("p", "h"),  
                      origin = 0,
                      alpha = 0.45,
@@ -2488,7 +2495,7 @@ print(FA_Summary, row.names=FALSE)
                      main = "Algorithm Comparison : Tucker-Lewis Fit Index",
                      ylab = "Algorithm",
                      xlab = "TLI",
-                     auto.key = list(adj = 1),
+                     auto.key = list(adj=1),
                      type=c("p", "h"),  
                      origin = 0,
                      alpha = 0.45,
@@ -2504,7 +2511,7 @@ print(FA_Summary, row.names=FALSE)
                      main = "Algorithm Comparison : Bayesian Information Criterion",
                      ylab = "Algorithm",
                      xlab = "BIC",
-                     auto.key = list(adj = 1),
+                     auto.key = list(adj=1),
                      type=c("p", "h"),  
                      origin = 0,
                      alpha = 0.45,
@@ -2520,7 +2527,7 @@ print(FA_Summary, row.names=FALSE)
                      main = "Algorithm Comparison : High Residual Rate ",
                      ylab = "Algorithm",
                      xlab = "High Residual Rate",
-                     auto.key = list(adj = 1),
+                     auto.key = list(adj=1),
                      type=c("p", "h"),  
                      origin = 0,
                      alpha = 0.45,
@@ -2554,7 +2561,7 @@ dandelion(FA_PA_P_5F_FactorLoading,
 |
 # **2. Summary** <a name="summary"></a>
 |
-| ![](D:/Github_Codes/ProjectPortfolio/Portfolio_Project_36/docs/Project36_Summary.png)
+| ![](D:/Github_Codes/ProjectPortfolio/Portfolio_Project_36/images/Project36_Summary.png)
 |
 # **3. References**
 |
@@ -2583,7 +2590,7 @@ dandelion(FA_PA_P_5F_FactorLoading,
 | **[R Package]** [corrplot](https://cran.r-project.org/web/packages/corrplot/corrplot.pdf) by Taiyun Wei
 | **[R Package]** [tidyverse](https://cran.r-project.org/web/packages/tidyverse/tidyverse.pdf) by Hadley Wickham
 | **[R Package]** [lares](https://cran.rstudio.com/web/packages/lares/lares.pdf) by Bernardo Lares
-| **[R Package]** [DMwR](https://mran.microsoft.com/snapshot/2016-05-02/web/packages/DMwR/DMwR.pdf) by Luis Torgo
+| **[R Package]** [DMwR2](https://mran.microsoft.com/snapshot/2016-05-02/web/packages/DMwR/DMwR.pdf) by Luis Torgo
 | **[R Package]** [gridExtra](https://cran.r-project.org/web/packages/gridExtra/gridExtra.pdf) by Baptiste Auguie and Anton Antonov
 | **[R Package]** [rattle](https://cran.r-project.org/web/packages/rattle/rattle.pdf) by Graham Williams
 | **[R Package]** [RColorBrewer](https://cran.r-project.org/web//packages/RColorBrewer/RColorBrewer.pdf) by Erich Neuwirth
